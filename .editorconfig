@@ -13,3 +13,6 @@ insert_final_newline = false
 
 [*.php]
 indent_size = 4
+
+[*.conf]
+indent_size = 4
