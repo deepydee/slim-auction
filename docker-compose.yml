@@ -1,4 +1,3 @@
-version: "3.7"
 services:
   gateway:
     build:
@@ -7,6 +6,14 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
+    networks:
+      - default
+      - dev-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dev-proxy"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-gateway.rule=Host(`${VIRTUAL_HOST}`)"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-gateway.loadbalancer.server.port=80"
     depends_on:
       - frontend
       - api
@@ -32,3 +39,8 @@ services:
       dockerfile: development/php-fpm/Dockerfile
     volumes:
       - ./api:/app
+        
+networks:
+  default:
+  dev-proxy:
+    external: true
