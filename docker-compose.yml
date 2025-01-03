@@ -39,6 +39,11 @@ services:
       dockerfile: development/php-fpm/Dockerfile
     volumes:
       - ./api:/app
+      
+  api-php-cli:
+    build:
+      context: api/docker
+      dockerfile: development/php-cli/Dockerfile
         
 networks:
   default:
