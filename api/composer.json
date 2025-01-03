@@ -1,10 +1,11 @@
 {
     "name": "deepydee/auction",
+    "version": "1.0.0",
     "type": "project",
     "license": "MIT",
     "config": {
       "process-timeout": 0,
-      "sort-packages": true,
+      "sort-packages": true
     },
     "autoload": {
         "psr-4": {
@@ -16,8 +17,14 @@
         "Test\\": "tests/"
       }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
-        "php": "^8.3"
+        "php": "^8.3",
+        "slim/slim": "^4.0",
+        "slim/psr7": "dev-master",
+        "symfony/console": "7.3.x-dev"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
     }
 }
