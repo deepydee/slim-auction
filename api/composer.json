@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Deepydee\\Auction\\": "src/"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {

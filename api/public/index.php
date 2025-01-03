@@ -11,7 +11,15 @@ http_response_code(500);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$container = new Container();
+$builder = new DI\ContainerBuilder();
+
+$builder->addDefinitions([
+    'config' => [
+        'debug' => (bool) getenv('APP_DEBUG'),
+    ],
+]);
+
+$container = $builder->build();
 
 $app = AppFactory::createFromContainer($container);
 
