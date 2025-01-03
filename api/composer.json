@@ -1,0 +1,23 @@
+{
+    "name": "deepydee/auction",
+    "type": "project",
+    "license": "MIT",
+    "config": {
+      "process-timeout": 0,
+      "sort-packages": true,
+    },
+    "autoload": {
+        "psr-4": {
+            "Deepydee\\Auction\\": "src/"
+        }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "Test\\": "tests/"
+      }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.3"
+    }
+}

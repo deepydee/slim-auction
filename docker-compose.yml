@@ -44,6 +44,8 @@ services:
     build:
       context: api/docker
       dockerfile: development/php-cli/Dockerfile
+    volumes:
+      - ./api:/app
         
 networks:
   default:
