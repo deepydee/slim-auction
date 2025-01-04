@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
 use Slim\App;
-use Slim\Factory\AppFactory;
 
 http_response_code(500);
 
