@@ -22,12 +22,7 @@ $container = $builder->build();
 
 $app = AppFactory::createFromContainer($container);
 
-$app->addErrorMiddleware(
-    displayErrorDetails: $container->get('config')['debug'],
-    logErrors: true,
-    logErrorDetails: true,
-);
-
+(require __DIR__ . '/../config/middleware.php')($app, $container);
 (require __DIR__ . '/../config/routes.php')($app);
 
 $app->run();
