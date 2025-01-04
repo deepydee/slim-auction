@@ -28,6 +28,6 @@ $app->addErrorMiddleware(
     logErrorDetails: true,
 );
 
-$app->get('/', HomeAction::class);
+(require __DIR__ . '/../config/routes.php')($app);
 
 $app->run();
