@@ -1,9 +1,5 @@
 FROM php:8.3-cli-alpine3.18 AS builder
 
-RUN apk add --no-cache postgresql-dev \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo_pgsql opcache 
-
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --version=2.7.2 --quiet
