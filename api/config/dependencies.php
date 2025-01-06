@@ -2,11 +2,28 @@
 
 declare(strict_types=1);
 
-$files = array_merge(
-    glob(__DIR__ . '/common/*.php') ?: [],
-    glob(__DIR__ . '/' . (getenv('APP_ENV') ?: 'prod') . '/*.php') ?: []
-);
+$environment = getenv('APP_ENV');
+if ($environment === false) {
+    $environment = 'prod';
+}
 
-$configs = array_map(static fn ($file) => require $file, $files);
+$common = glob(__DIR__ . '/common/*.php');
+if ($common === false) {
+    $common = [];
+}
+
+$other = glob(__DIR__ . '/' . $environment . '/*.php');
+if ($other === false) {
+    $other = [];
+}
+
+$files = array_merge($common, $other);
+
+/**
+ * @psalm-suppress MixedReturnStatement
+ * @psalm-suppress UnresolvableInclude
+ * @psalm-suppress MixedInferredReturnType
+ */
+$configs = array_map(static fn (string $file): array => require $file, $files);
 
 return array_merge_recursive(...$configs);

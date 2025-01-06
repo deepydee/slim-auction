@@ -15,7 +15,7 @@ final readonly class HomeAction
     /**
      * @throws \JsonException
      */
-    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(): ResponseInterface
     {
         return new JsonResponse(data: new \stdClass());
     }
