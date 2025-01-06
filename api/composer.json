@@ -16,6 +16,7 @@
         "symfony/console": "7.3.x-dev"
     },
     "require-dev": {
+        "overtrue/phplint": "^9.5",
         "roave/security-advisories": "dev-latest"
     },
     "autoload": {
@@ -29,7 +30,7 @@
       }
     },
     "scripts": {
-      "lint": "find bin config public src -name \"*.php\" -print0 | xargs -0 -n1 php -l",
+      "lint": "./vendor/bin/phplint",
       "app": "php bin/app.php --ansi --no-interaction"
     }
 }
