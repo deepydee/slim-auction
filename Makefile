@@ -7,7 +7,9 @@ lint: api-lint
 analyze: api-analyze
 test: api-test
 test-unit: api-test-unit
+test-unit-coverage: api-test-unit-coverage
 test-functional: api-test-functional
+test-functional-coverage: api-test-functional-coverage
 
 docker-up:
 	docker compose up -d
@@ -34,16 +36,22 @@ api-lint:
 	docker compose run --rm api-php-cli composer cs-check
 
 api-analyze:
-	docker-compose run --rm api-php-cli composer psalm
+	docker compose run --rm api-php-cli composer psalm
 
 api-test:
-		 	docker-compose run --rm api-php-cli composer test
+		docker compose run --rm api-php-cli composer test
 
 api-test-unit:
-	docker-compose run --rm api-php-cli composer test -- --testsuite=unit
+	docker compose run --rm api-php-cli composer test -- --testsuite=unit
+
+api-test-unit-coverage:
+	docker compose run --rm api-php-cli composer test-coverage -- --testsuite=unit
 
 api-test-functional:
-	docker-compose run --rm api-php-cli composer test -- --testsuite=functional
+	docker compose run --rm api-php-cli composer test -- --testsuite=functional
+
+api-test-functional-coverage:
+	docker compose run --rm api-php-cli composer test-coverage -- --testsuite=functional
 
 build: build-gateway build-frontend build-api
 

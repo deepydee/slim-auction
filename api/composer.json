@@ -34,6 +34,7 @@
     },
     "scripts": {
       "test": "phpunit --colors=always",
+      "test-coverage": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-html var/coverage",
       "lint": "./vendor/bin/phplint --ansi",
       "cs-check": "phpcs",
       "cs-fix": "phpcbf",

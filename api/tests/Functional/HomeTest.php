@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
-use App\Http\Action\HomeAction;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 
-#[CoversClass(HomeAction::class)]
 final class HomeTest extends WebTestCase
 {
     #[Test]
