@@ -7,6 +7,7 @@ namespace Test\Unit\Http;
 use App\Http\JsonResponse;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -33,67 +34,39 @@ final class JsonResponseTest extends TestCase
      */
     #[Test]
     #[Group('api')]
-    public function it_can_test_null(): void
+    #[DataProvider('getCases')]
+    public function it_can_test_response(mixed $source, mixed $expect): void
     {
-        $response = new JsonResponse(null);
+        $response = new JsonResponse($source);
 
-        self::assertEquals('null', $response->getBody()->getContents());
+        self::assertEquals('application/json', $response->getHeaderLine('Content-Type'));
+        self::assertEquals($expect, $response->getBody()->getContents());
         self::assertEquals(200, $response->getStatusCode());
     }
 
     /**
-     * @throws \JsonException
+     * @return list<mixed>
      */
-    #[Test]
-    #[Group('api')]
-    public function it_can_test_int(): void
-    {
-        $response = new JsonResponse(12);
-
-        self::assertEquals('12', $response->getBody()->getContents());
-        self::assertEquals(200, $response->getStatusCode());
-    }
-
-    #[Test]
-    #[Group('api')]
-    public function it_can_test_string(): void
-    {
-        $response = new JsonResponse('12');
-
-        self::assertEquals('"12"', $response->getBody()->getContents());
-        self::assertEquals(200, $response->getStatusCode());
-    }
-
-    /**
-     * @throws \JsonException
-     */
-    #[Test]
-    #[Group('api')]
-    public function it_can_test_object(): void
+    public static function getCases(): array
     {
         $object = new \stdClass();
         $object->str = 'value';
         $object->int = 1;
         $object->none = null;
 
-        $response = new JsonResponse($object);
+        $array = [
+            'str' => 'value',
+            'int' => 1,
+            'none' => null
+        ];
 
-        self::assertEquals('{"str":"value","int":1,"none":null}', $response->getBody()->getContents());
-        self::assertEquals(200, $response->getStatusCode());
-    }
-
-    /**
-     * @throws \JsonException
-     */
-    #[Test]
-    #[Group('api')]
-    public function it_can_test_array(): void
-    {
-        $array = ['str' => 'value', 'int' => 1, 'none' => null];
-
-        $response = new JsonResponse($array);
-
-        self::assertEquals('{"str":"value","int":1,"none":null}', $response->getBody()->getContents());
-        self::assertEquals(200, $response->getStatusCode());
+        return [
+            'null' => [null, 'null'],
+            'empty' => ['', '""'],
+            'number' => [12, '12'],
+            'string' => ['12', '"12"'],
+            'object' => [$object, '{"str":"value","int":1,"none":null}'],
+            'array' => [$array, '{"str":"value","int":1,"none":null}'],
+        ];
     }
 }
