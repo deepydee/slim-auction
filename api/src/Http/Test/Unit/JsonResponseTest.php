@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Test\Unit\Http;
+namespace App\Http\Test\Unit;
 
 use App\Http\JsonResponse;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;

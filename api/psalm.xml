@@ -24,8 +24,15 @@
     <LessSpecificReturnType errorLevel="info" />
     <UnusedClass>
       <errorLevel type="suppress">
+        <directory name="src/Http/Test" />
         <directory name="tests" />
       </errorLevel>
     </UnusedClass>
+    <PropertyNotSetInConstructor>
+      <errorLevel type="suppress">
+        <directory name="src/Http/Test" />
+        <directory name="tests" />
+      </errorLevel>
+    </PropertyNotSetInConstructor>
   </issueHandlers>
 </psalm>
