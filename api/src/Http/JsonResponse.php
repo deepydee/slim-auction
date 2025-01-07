@@ -12,9 +12,6 @@ use Slim\Psr7\Response;
 final class JsonResponse extends Response
 {
     /**
-     * @param  array|object  $data
-     * @param  int  $status
-     *
      * @throws \JsonException
      */
     public function __construct(

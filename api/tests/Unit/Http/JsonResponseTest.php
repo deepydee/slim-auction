@@ -45,7 +45,7 @@ final class JsonResponseTest extends TestCase
     }
 
     /**
-     * @return list<mixed>
+     * @return array<array-key, list<mixed>>
      */
     public static function getCases(): array
     {

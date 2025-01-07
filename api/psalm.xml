@@ -22,5 +22,10 @@
 
   <issueHandlers>
     <LessSpecificReturnType errorLevel="info" />
+    <UnusedClass>
+      <errorLevel type="suppress">
+        <directory name="tests" />
+      </errorLevel>
+    </UnusedClass>
   </issueHandlers>
 </psalm>
