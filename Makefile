@@ -1,4 +1,4 @@
-init: docker-down-clear docker-pull docker-build docker-up api-init
+init: docker-down-clear api-clear docker-pull docker-build docker-up api-init
 up: docker-up
 down: docker-down
 restart: down up
@@ -27,6 +27,9 @@ docker-build:
 	docker compose build --pull
 
 api-init: api-composer-install
+
+api-clear:
+	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/*'
 
 api-composer-install:
 	docker compose run --rm api-php-cli composer install
