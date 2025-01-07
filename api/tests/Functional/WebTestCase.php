@@ -14,11 +14,8 @@ class WebTestCase extends TestCase
 {
     protected function app(): App
     {
-        /** @var ContainerInterface $container */
-        $container = require __DIR__ . '/../../config/container.php';
-
         /** @var App */
-        return (require __DIR__ . '/../../config/app.php')($container);
+        return (require __DIR__ . '/../../config/app.php')($this->container());
     }
 
     protected static function json(string $method, string $path): ServerRequestInterface
@@ -31,5 +28,11 @@ class WebTestCase extends TestCase
     protected static function request(string $method, string $path): ServerRequestInterface
     {
         return (new ServerRequestFactory())->createServerRequest($method, $path);
+    }
+
+    private function container(): ContainerInterface
+    {
+        /** @var ContainerInterface */
+        return require __DIR__ . '/../../config/container.php';
     }
 }
