@@ -2,4 +2,4 @@
 /vendor
 /var/*
 /var/.phplint.json
-/var/.phpunit.cache
+/var/.phpunit.cache/*

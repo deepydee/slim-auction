@@ -18,7 +18,7 @@ final class JsonResponse extends Response
      * @throws \JsonException
      */
     public function __construct(
-        array|object $data = [],
+        mixed $data,
         int $status = StatusCodeInterface::STATUS_OK,
     ) {
         parent::__construct(

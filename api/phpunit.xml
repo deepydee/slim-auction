@@ -10,6 +10,9 @@
          displayDetailsOnPhpunitDeprecations="true"
          failOnPhpunitDeprecation="true"
          failOnRisky="true"
+         colors="true"
+         cacheResult="true"
+         testdox="true"
          failOnWarning="true">
     <testsuites>
         <testsuite name="default">
