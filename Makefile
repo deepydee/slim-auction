@@ -5,6 +5,7 @@ restart: down up
 check: lint analyze test
 lint: api-lint
 analyze: api-analyze
+test: api-test
 test-unit: api-test-unit
 test-functional: api-test-functional
 
@@ -34,6 +35,9 @@ api-lint:
 
 api-analyze:
 	docker-compose run --rm api-php-cli composer psalm
+
+api-test:
+		 	docker-compose run --rm api-php-cli composer test
 
 api-test-unit:
 	docker-compose run --rm api-php-cli composer test -- --testsuite=unit
