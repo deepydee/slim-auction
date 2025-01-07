@@ -20,4 +20,20 @@ final class HomeTest extends WebTestCase
         self::assertEquals('application/json', $response->getHeaderLine('Content-Type'));
         self::assertEquals('{}', (string) $response->getBody());
     }
+
+    #[Test]
+    public function it_can_fail(): void
+    {
+        $response = $this->app()->handle(self::json('POST', '/'));
+
+        self::assertEquals(405, $response->getStatusCode());
+    }
+
+    #[Test]
+    public function it_can_not_found(): void
+    {
+        $response = $this->app()->handle(self::json('GET', '/not-found'));
+
+        self::assertEquals(404, $response->getStatusCode());
+    }
 }
