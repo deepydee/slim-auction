@@ -25,12 +25,14 @@
     <UnusedClass>
       <errorLevel type="suppress">
         <directory name="src/Http/Test" />
+        <directory name="src/Auth/Test/Unit" />
         <directory name="tests" />
       </errorLevel>
     </UnusedClass>
     <PropertyNotSetInConstructor>
       <errorLevel type="suppress">
         <directory name="src/Http/Test" />
+        <directory name="src/Auth/Test/Unit" />
         <directory name="tests" />
       </errorLevel>
     </PropertyNotSetInConstructor>
