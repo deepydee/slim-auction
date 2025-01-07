@@ -17,6 +17,7 @@
     },
     "require-dev": {
         "overtrue/phplint": "^9.5",
+        "phpunit/phpunit": "^10",
         "roave/security-advisories": "dev-latest",
         "squizlabs/php_codesniffer": "*",
         "vimeo/psalm": "^5.26"
