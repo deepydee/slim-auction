@@ -25,6 +25,22 @@ final readonly class Token
         return new self(Uuid::uuid4()->toString(), $expiresAt);
     }
 
+    public function validate(string $value, DateTimeImmutable $date): void
+    {
+        if (! $this->isEqualTo($value)) {
+            throw new \DomainException('Token is invalid.');
+        }
+
+        if ($this->isExpiredTo($date)) {
+            throw new \DomainException('Token is expired.');
+        }
+    }
+
+    private function isEqualTo(string $value): bool
+    {
+        return $this->value === $value;
+    }
+
     public function value(): string
     {
         return $this->value;
@@ -35,8 +51,8 @@ final readonly class Token
         return $this->expiresAt;
     }
 
-    public function isExpired(): bool
+    public function isExpiredTo(\DateTimeImmutable $date): bool
     {
-        return $this->expiresAt < new DateTimeImmutable();
+        return $this->expiresAt <= $date;
     }
 }

@@ -32,7 +32,7 @@ final class RequestTest extends TestCase
         self::assertEquals($date, $user->date());
         self::assertEquals($email, $user->email());
         self::assertEquals($hash, $user->passwordHash());
-        self::assertEquals($token, $user->joinConfirmToken());
+        self::assertEquals($token, $user->joinConfirmationToken());
 
         self::assertTrue($user->isWait());
         self::assertFalse($user->isActive());

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Test\Unit\Entity\User;
+namespace App\Auth\Test\Unit\Entity\User\Token;
 
 use App\Auth\Entity\User\Token;
 use DateTimeImmutable;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 #[CoversClass(Token::class)]
-final class TokenTest extends TestCase
+final class CreateTest extends TestCase
 {
     #[Test]
     public function it_can_generate_token(): void

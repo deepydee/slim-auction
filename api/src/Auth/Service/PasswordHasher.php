@@ -18,7 +18,7 @@ readonly class PasswordHasher
         Assert::notEmpty($password);
         /** @var string|false|null $hash */
         $hash = password_hash($password, PASSWORD_ARGON2I, ['memory_cost' => $this->memoryCost]);
-        if ($hash === null) {
+        if (is_null($hash)) {
             throw new RuntimeException('Invalid hash algorithm.');
         }
         if ($hash === false) {

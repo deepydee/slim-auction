@@ -13,7 +13,7 @@ final class User
         private readonly DateTimeImmutable $date,
         private readonly Email $email,
         private readonly string $passwordHash,
-        private ?Token $joinConfirmToken = null,
+        private ?Token $joinConfirmationToken = null,
         private Status $status = Status::Wait,
     ) {
     }
@@ -38,16 +38,28 @@ final class User
         return $this->passwordHash;
     }
 
-    public function joinConfirmToken(): ?Token
+    public function joinConfirmationToken(): ?Token
     {
-        return $this->joinConfirmToken;
+        return $this->joinConfirmationToken;
     }
-    
+
+    public function confirmJoin(string $token, DateTimeImmutable $date): void
+    {
+        if (is_null($this->joinConfirmationToken)) {
+            throw new \DomainException('Confirmation is not required.');
+        }
+
+        $this->joinConfirmationToken->validate($token, $date);
+        $this->status = Status::Active;
+        $this->joinConfirmationToken = null;
+    }
+
+
     public function isActive(): bool
     {
         return $this->status->isActive();
     }
-    
+
     public function isWait(): bool
     {
         return $this->status->isWait();
