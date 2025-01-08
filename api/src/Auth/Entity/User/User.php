@@ -57,6 +57,18 @@ final class User
         return $user;
     }
 
+    public function attachSocialMedia(SocialMediaIdentity $identity): void
+    {
+        /** @var SocialMediaIdentity $existing */
+        foreach ($this->socialMedias as $existing) {
+            if ($existing->isEqualTo($identity)) {
+                throw new DomainException('Social media is already attached.');
+            }
+        }
+
+        $this->socialMedias->append($identity);
+    }
+
     public function id(): Id
     {
         return $this->id;
