@@ -22,7 +22,6 @@
     "overtrue/phplint": "^9.5",
     "phpunit/phpunit": "^10",
     "roave/security-advisories": "dev-latest",
-    "squizlabs/php_codesniffer": "*",
     "vimeo/psalm": "^5.26"
   },
   "autoload": {
@@ -39,10 +38,8 @@
     "test": "phpunit --colors=always",
     "test-coverage": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-html var/coverage",
     "lint": "./vendor/bin/phplint --ansi",
-    "cs-check": "phpcs",
-    "php-cs-check": "./vendor/bin/php-cs-fixer check",
-    "cs-fix": "phpcbf",
-    "php-cs-fix": "./vendor/bin/php-cs-fixer fix",
+    "cs-check": "./vendor/bin/php-cs-fixer check",
+    "cs-fix": "./vendor/bin/php-cs-fixer fix",
     "psalm": "psalm",
     "app": "php bin/app.php --ansi --no-interaction"
   }
