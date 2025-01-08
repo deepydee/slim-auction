@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Auth\Entity\User;
 
+use ArrayObject;
 use DateTimeImmutable;
 use DomainException;
 
 final class User
 {
+    private ArrayObject $socialMedias;
+
     private function __construct(
         private readonly Id $id,
         private readonly DateTimeImmutable $date,
@@ -17,6 +20,7 @@ final class User
         private ?Token $joinConfirmationToken = null,
         private Status $status = Status::Wait,
     ) {
+        $this->socialMedias = new ArrayObject();
     }
 
     public static function requestJoinByEmail(
@@ -33,6 +37,24 @@ final class User
             passwordHash: $passwordHash,
             joinConfirmationToken: $token,
         );
+    }
+
+    public static function joinBySocialMedia(
+        Id $id,
+        DateTimeImmutable $date,
+        Email $email,
+        SocialMediaIdentity $identity
+    ): self {
+        $user = new self(
+            id: $id,
+            date: $date,
+            email: $email,
+            status: Status::Active,
+        );
+
+        $user->socialMedias->append($identity);
+
+        return $user;
     }
 
     public function id(): Id
@@ -80,5 +102,12 @@ final class User
     public function isWait(): bool
     {
         return $this->status->isWait();
+    }
+
+    /** @return list<SocialMediaIdentity> */
+    public function socialMedias(): array
+    {
+        /** @var list<SocialMediaIdentity> */
+        return $this->socialMedias->getArrayCopy();
     }
 }
