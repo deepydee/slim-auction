@@ -16,7 +16,7 @@ final class PasswordHasherTest extends TestCase
     #[Test]
     public function it_can_hash_password(): void
     {
-        $hasher = new PasswordHasher();
+        $hasher = new PasswordHasher(memoryCost: 8);
 
         $hash = $hasher->hash($password = 'new-password');
 
@@ -27,7 +27,7 @@ final class PasswordHasherTest extends TestCase
     #[Test]
     public function password_cannot_be_empty(): void
     {
-        $hasher = new PasswordHasher();
+        $hasher = new PasswordHasher(memoryCost: 8);
 
         $this->expectException(InvalidArgumentException::class);
         $hasher->hash('');
@@ -36,7 +36,7 @@ final class PasswordHasherTest extends TestCase
     #[Test]
     public function hash_can_be_validated(): void
     {
-        $hasher = new PasswordHasher();
+        $hasher = new PasswordHasher(memoryCost: 8);
 
         $hash = $hasher->hash($password = 'new-password');
 

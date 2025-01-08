@@ -9,11 +9,15 @@ use Webmozart\Assert\Assert;
 
 readonly class PasswordHasher
 {
+    public function __construct(private int $memoryCost = PASSWORD_ARGON2_DEFAULT_MEMORY_COST)
+    {
+    }
+
     public function hash(string $password): string
     {
         Assert::notEmpty($password);
         /** @var string|false|null $hash */
-        $hash = password_hash($password, PASSWORD_ARGON2I);
+        $hash = password_hash($password, PASSWORD_ARGON2I, ['memory_cost' => $this->memoryCost]);
         if ($hash === null) {
             throw new RuntimeException('Invalid hash algorithm.');
         }
