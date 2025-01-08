@@ -14,6 +14,7 @@ final class User
         private readonly Email $email,
         private readonly string $passwordHash,
         private ?Token $joinConfirmToken = null,
+        private Status $status = Status::Wait,
     ) {
     }
 
@@ -40,5 +41,15 @@ final class User
     public function joinConfirmToken(): ?Token
     {
         return $this->joinConfirmToken;
+    }
+    
+    public function isActive(): bool
+    {
+        return $this->status->isActive();
+    }
+    
+    public function isWait(): bool
+    {
+        return $this->status->isWait();
     }
 }
