@@ -8,14 +8,30 @@ use DateTimeImmutable;
 
 final class User
 {
-    public function __construct(
+    private function __construct(
         private readonly Id $id,
         private readonly DateTimeImmutable $date,
         private readonly Email $email,
-        private readonly string $passwordHash,
+        private readonly ?string $passwordHash = null,
         private ?Token $joinConfirmationToken = null,
         private Status $status = Status::Wait,
     ) {
+    }
+
+    public static function requestJoinByEmail(
+        Id $id,
+        DateTimeImmutable $date,
+        Email $email,
+        string $passwordHash,
+        Token $token
+    ): self {
+        return new self(
+            id: $id,
+            date: $date,
+            email: $email,
+            passwordHash: $passwordHash,
+            joinConfirmationToken: $token,
+        );
     }
 
     public function id(): Id

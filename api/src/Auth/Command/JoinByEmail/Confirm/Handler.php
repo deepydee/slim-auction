@@ -12,8 +12,7 @@ final readonly class Handler
     public function __construct(
         private UserRepository $users,
         private Flusher $flusher,
-    )
-    {
+    ) {
     }
 
     public function handle(Command $command): void

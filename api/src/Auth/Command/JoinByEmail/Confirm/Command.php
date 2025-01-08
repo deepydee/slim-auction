@@ -8,7 +8,6 @@ final readonly class Command
 {
     public function __construct(
         public string $token,
-    )
-    {
+    ) {
     }
 }

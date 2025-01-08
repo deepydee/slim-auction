@@ -17,11 +17,6 @@ final readonly class Email
         $this->value = mb_strtolower($value);
     }
 
-    public static function fromString(string $value): self
-    {
-        return new self($value);
-    }
-
     public function value(): string
     {
         return $this->value;

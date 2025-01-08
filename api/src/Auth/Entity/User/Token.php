@@ -20,11 +20,6 @@ final readonly class Token
         $this->expiresAt = $expires;
     }
 
-    public static function make(DateTimeImmutable $expiresAt): self
-    {
-        return new self(Uuid::uuid4()->toString(), $expiresAt);
-    }
-
     public function validate(string $value, DateTimeImmutable $date): void
     {
         if (! $this->isEqualTo($value)) {

@@ -21,8 +21,7 @@ final class Handler
         private Tokenizer $tokenizer,
         private Flusher $flusher,
         private JoinConfirmationSender $sender,
-    )
-    {
+    ) {
     }
 
     public function handle(Command $command): void
@@ -34,7 +33,7 @@ final class Handler
 
         $date = new \DateTimeImmutable();
 
-        $user = new User(
+        $user = User::requestJoinByEmail(
             Id::next(),
             $date,
             $email,

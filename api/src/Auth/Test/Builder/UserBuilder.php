@@ -53,7 +53,7 @@ final class UserBuilder
      */
     public function build(): User
     {
-        $user = new User(
+        $user = User::requestJoinByEmail(
             $this->id,
             $this->date,
             $this->email,

@@ -20,7 +20,7 @@ final class RequestTest extends TestCase
     #[Test]
     public function it_can_create_user(): void
     {
-        $user = new User(
+        $user = User::requestJoinByEmail(
             $id = Id::next(),
             $date = new DateTimeImmutable(),
             $email = new Email('mail@example.com'),
