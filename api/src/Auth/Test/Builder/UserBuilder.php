@@ -8,6 +8,7 @@ use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
 use App\Auth\Entity\User\Token;
 use App\Auth\Entity\User\User;
+use DateMalformedStringException;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 
@@ -21,7 +22,7 @@ final class UserBuilder
     private bool $active = false;
 
     /**
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      */
     public function __construct()
     {
@@ -49,7 +50,7 @@ final class UserBuilder
     }
 
     /**
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      */
     public function build(): User
     {

@@ -7,7 +7,7 @@ namespace App\Auth\Service;
 use RuntimeException;
 use Webmozart\Assert\Assert;
 
-readonly class PasswordHasher
+final readonly class PasswordHasher
 {
     public function __construct(private int $memoryCost = PASSWORD_ARGON2_DEFAULT_MEMORY_COST)
     {
@@ -16,7 +16,7 @@ readonly class PasswordHasher
     public function hash(string $password): string
     {
         Assert::notEmpty($password);
-        /** @var string|false|null $hash */
+        /** @var false|string|null $hash */
         $hash = password_hash($password, PASSWORD_ARGON2I, ['memory_cost' => $this->memoryCost]);
         if (is_null($hash)) {
             throw new RuntimeException('Invalid hash algorithm.');

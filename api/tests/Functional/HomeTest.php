@@ -6,6 +6,9 @@ namespace Test\Functional;
 
 use PHPUnit\Framework\Attributes\Test;
 
+/**
+ * @internal
+ */
 final class HomeTest extends WebTestCase
 {
     #[Test]

@@ -5,17 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Test\Unit;
 
 use App\Http\JsonResponse;
+use JsonException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
+/**
+ * @internal
+ */
 #[CoversClass(JsonResponse::class)]
 final class JsonResponseTest extends TestCase
 {
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     #[Test]
     #[Group('api')]
@@ -29,7 +34,7 @@ final class JsonResponseTest extends TestCase
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     #[Test]
     #[Group('api')]
@@ -48,7 +53,7 @@ final class JsonResponseTest extends TestCase
      */
     public static function getCases(): array
     {
-        $object = new \stdClass();
+        $object = new stdClass();
         $object->str = 'value';
         $object->int = 1;
         $object->none = null;
@@ -56,7 +61,7 @@ final class JsonResponseTest extends TestCase
         $array = [
             'str' => 'value',
             'int' => 1,
-            'none' => null
+            'none' => null,
         ];
 
         return [

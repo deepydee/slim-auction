@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Auth\Entity\User;
 
 use DateTimeImmutable;
-use Ramsey\Uuid\Uuid;
+use DomainException;
 use Webmozart\Assert\Assert;
 
 final readonly class Token
@@ -23,11 +23,11 @@ final readonly class Token
     public function validate(string $value, DateTimeImmutable $date): void
     {
         if (! $this->isEqualTo($value)) {
-            throw new \DomainException('Token is invalid.');
+            throw new DomainException('Token is invalid.');
         }
 
         if ($this->isExpiredTo($date)) {
-            throw new \DomainException('Token is expired.');
+            throw new DomainException('Token is expired.');
         }
     }
 
@@ -46,7 +46,7 @@ final readonly class Token
         return $this->expiresAt;
     }
 
-    public function isExpiredTo(\DateTimeImmutable $date): bool
+    public function isExpiredTo(DateTimeImmutable $date): bool
     {
         return $this->expiresAt <= $date;
     }

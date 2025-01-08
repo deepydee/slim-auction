@@ -6,17 +6,22 @@ namespace App\Auth\Test\Unit\Entity\User\User\JoinByEmail;
 
 use App\Auth\Entity\User\Token;
 use App\Auth\Entity\User\User;
+use App\Auth\Test\Builder\UserBuilder;
+use DateMalformedStringException;
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use App\Auth\Test\Builder\UserBuilder;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @internal
+ */
 #[CoversClass(User::class)]
 final class ConfirmTest extends TestCase
 {
     /**
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      */
     #[Test]
     public function user_can_successfully_confirm_their_email(): void
@@ -37,7 +42,7 @@ final class ConfirmTest extends TestCase
     }
 
     /**
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      */
     #[Test]
     public function user_cannot_confirm_email_with_invalid_token(): void
@@ -52,7 +57,7 @@ final class ConfirmTest extends TestCase
     }
 
     /**
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      */
     #[Test]
     public function user_cannot_confirm_email_with_expired_token(): void
@@ -67,7 +72,7 @@ final class ConfirmTest extends TestCase
     }
 
     /**
-     * @throws \DateMalformedStringException
+     * @throws DateMalformedStringException
      */
     public function user_cannot_confirm_email_if_it_already_confirmed(): void
     {
@@ -87,7 +92,7 @@ final class ConfirmTest extends TestCase
     {
         return new Token(
             Uuid::uuid4()->toString(),
-            new \DateTimeImmutable('+1 day')
+            new DateTimeImmutable('+1 day')
         );
     }
 }

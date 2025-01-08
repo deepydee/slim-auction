@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Auth\Test\Unit\Entity\User\User\JoinByEmail;
 
-use App\Auth\Entity\User\Token;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
+use App\Auth\Entity\User\Token;
 use App\Auth\Entity\User\User;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -14,6 +14,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @internal
+ */
 #[CoversClass(User::class)]
 final class RequestTest extends TestCase
 {

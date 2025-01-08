@@ -6,6 +6,8 @@ namespace App\Auth\Command\JoinByEmail\Confirm;
 
 use App\Auth\Entity\User\UserRepository;
 use App\Flusher;
+use DateTimeImmutable;
+use DomainException;
 
 final readonly class Handler
 {
@@ -18,10 +20,10 @@ final readonly class Handler
     public function handle(Command $command): void
     {
         if (! $user = $this->users->findByConfirmationToken($command->token)) {
-            throw new \DomainException('Invalid token.');
+            throw new DomainException('Invalid token.');
         }
 
-        $user->confirmJoin($command->token, new \DateTimeImmutable());
+        $user->confirmJoin($command->token, new DateTimeImmutable());
 
         $this->flusher->flush();
     }

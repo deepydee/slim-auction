@@ -18,6 +18,7 @@
     "webmozart/assert": "^1.11"
   },
   "require-dev": {
+    "dg/bypass-finals": "^1.8",
     "friendsofphp/php-cs-fixer": "^3.66",
     "overtrue/phplint": "^9.5",
     "phpunit/phpunit": "^10",
@@ -38,8 +39,7 @@
     "test": "phpunit --colors=always",
     "test-coverage": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-html var/coverage",
     "lint": "./vendor/bin/phplint --ansi",
-    "cs-check": "./vendor/bin/php-cs-fixer check",
-    "cs-fix": "./vendor/bin/php-cs-fixer fix",
+    "php-cs-fixer": "php-cs-fixer --config=.php-cs-fixer.dist.php --ansi --allow-risky=yes",
     "psalm": "psalm",
     "app": "php bin/app.php --ansi --no-interaction"
   }
