@@ -11,6 +11,7 @@ use DomainException;
 final class User
 {
     private ArrayObject $socialMedias;
+    private ?Token $passwordResetToken = null;
 
     private function __construct(
         private readonly Id $id,
@@ -37,6 +38,19 @@ final class User
             passwordHash: $passwordHash,
             joinConfirmationToken: $token,
         );
+    }
+
+    public function requestPasswordReset(Token $token, DateTimeImmutable $date): void
+    {
+        if (! $this->isActive()) {
+            throw new DomainException('User is not active.');
+        }
+
+        if (! is_null($this->passwordResetToken) && ! $this->passwordResetToken->isExpiredTo($date)) {
+            throw new DomainException('Resetting is already requested.');
+        }
+
+        $this->passwordResetToken = $token;
     }
 
     public static function joinBySocialMedia(
@@ -87,6 +101,11 @@ final class User
     public function passwordHash(): ?string
     {
         return $this->passwordHash;
+    }
+
+    public function passwordResetToken(): ?Token
+    {
+        return $this->passwordResetToken;
     }
 
     public function joinConfirmationToken(): ?Token
