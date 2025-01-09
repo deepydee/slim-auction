@@ -6,6 +6,7 @@ namespace App\Auth\Test\Builder;
 
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
+use App\Auth\Entity\User\SocialMediaIdentity;
 use App\Auth\Entity\User\Token;
 use App\Auth\Entity\User\User;
 use DateMalformedStringException;
@@ -20,6 +21,7 @@ final class UserBuilder
     private DateTimeImmutable $date;
     private Token $joinConfirmToken;
     private bool $active = false;
+    private ?SocialMediaIdentity $socialMediaIdentity = null;
 
     /**
      * @throws DateMalformedStringException
@@ -41,6 +43,14 @@ final class UserBuilder
         return $clone;
     }
 
+    public function viaNetwork(?SocialMediaIdentity $identity = null): self
+    {
+        $clone = clone $this;
+        $clone->socialMediaIdentity = $identity ?? new SocialMediaIdentity('vk', '0000001');
+
+        return $clone;
+    }
+
     public function active(): self
     {
         $clone = clone $this;
@@ -54,6 +64,15 @@ final class UserBuilder
      */
     public function build(): User
     {
+        if (! is_null($this->socialMediaIdentity)) {
+            return User::joinBySocialMedia(
+                $this->id,
+                $this->date,
+                $this->email,
+                $this->socialMediaIdentity,
+            );
+        }
+
         $user = User::requestJoinByEmail(
             $this->id,
             $this->date,
