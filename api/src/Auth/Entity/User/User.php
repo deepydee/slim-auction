@@ -17,7 +17,7 @@ final class User
         private readonly Id $id,
         private readonly DateTimeImmutable $date,
         private readonly Email $email,
-        private readonly ?string $passwordHash = null,
+        private ?string $passwordHash = null,
         private ?Token $joinConfirmationToken = null,
         private Status $status = Status::Wait,
     ) {
@@ -51,6 +51,17 @@ final class User
         }
 
         $this->passwordResetToken = $token;
+    }
+
+    public function resetPassword(string $token, DateTimeImmutable $date, string $hash): void
+    {
+        if (is_null($this->passwordResetToken)) {
+            throw new DomainException('Resetting is not requested.');
+        }
+
+        $this->passwordResetToken->validate($token, $date);
+        $this->passwordResetToken = null;
+        $this->passwordHash = $hash;
     }
 
     public static function joinBySocialMedia(
