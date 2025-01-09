@@ -13,6 +13,8 @@ final class User
 {
     private ArrayObject $socialMedias;
     private ?Token $passwordResetToken = null;
+    private ?Email $newEmail = null;
+    private ?Token $newEmailToken = null;
 
     private function __construct(
         private readonly Id $id,
@@ -46,7 +48,6 @@ final class User
         if (! $this->isActive()) {
             throw new DomainException('User is not active.');
         }
-
         if (! is_null($this->passwordResetToken) && ! $this->passwordResetToken->isExpiredTo($date)) {
             throw new DomainException('Resetting is already requested.');
         }
@@ -70,12 +71,27 @@ final class User
         if (is_null($this->passwordHash)) {
             throw new DomainException('User does not have an old password.');
         }
-
         if (! $hasher->validate($current, $this->passwordHash)) {
             throw new DomainException('Incorrect current password.');
         }
 
         $this->passwordHash = $hasher->hash($new);
+    }
+
+    public function requestEmailChanging(Token $token, DateTimeImmutable $date, Email $email): void
+    {
+        if (! $this->isActive()) {
+            throw new DomainException('User is not active.');
+        }
+        if ($this->email->isEqualTo($email)) {
+            throw new DomainException('Email is already same.');
+        }
+        if (! is_null($this->newEmailToken) && ! $this->newEmailToken->isExpiredTo($date)) {
+            throw new DomainException('Changing is already requested.');
+        }
+
+        $this->newEmail = $email;
+        $this->newEmailToken = $token;
     }
 
     public static function joinBySocialMedia(
@@ -121,6 +137,16 @@ final class User
     public function email(): Email
     {
         return $this->email;
+    }
+
+    public function newEmail(): ?Email
+    {
+        return $this->newEmail;
+    }
+
+    public function newEmailToken(): ?Token
+    {
+        return $this->newEmailToken;
     }
 
     public function passwordHash(): ?string
