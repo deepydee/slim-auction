@@ -12,6 +12,7 @@ interface UserRepository
     public function hasBySocialMedia(SocialMediaIdentity $identity): bool;
     public function findByConfirmationToken(string $token): ?User;
     public function findByPasswordResetToken(string $token): ?User;
+    public function findByNewEmailToken(string $token): ?User;
     public function add(User $user): void;
 
     /** @throws DomainException */

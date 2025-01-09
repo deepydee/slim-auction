@@ -19,7 +19,7 @@ final class User
     private function __construct(
         private readonly Id $id,
         private readonly DateTimeImmutable $date,
-        private readonly Email $email,
+        private Email $email,
         private ?string $passwordHash = null,
         private ?Token $joinConfirmationToken = null,
         private Status $status = Status::Wait,
@@ -92,6 +92,18 @@ final class User
 
         $this->newEmail = $email;
         $this->newEmailToken = $token;
+    }
+
+    public function confirmEmailChanging(string $token, DateTimeImmutable $date): void
+    {
+        if (is_null($this->newEmail) || is_null($this->newEmailToken)) {
+            throw new DomainException('Changing is not requested.');
+        }
+
+        $this->newEmailToken->validate($token, $date);
+        $this->email = $this->newEmail;
+        $this->newEmail = null;
+        $this->newEmailToken = null;
     }
 
     public static function joinBySocialMedia(
