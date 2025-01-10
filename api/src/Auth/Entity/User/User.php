@@ -152,6 +152,13 @@ final class User
         $this->role = $role;
     }
 
+    public function remove(): void
+    {
+        if (! $this->isWait()) {
+            throw new DomainException('Unable to remove an active user.');
+        }
+    }
+
     public function date(): DateTimeImmutable
     {
         return $this->date;
