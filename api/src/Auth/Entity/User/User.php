@@ -23,6 +23,7 @@ final class User
         private ?string $passwordHash = null,
         private ?Token $joinConfirmationToken = null,
         private Status $status = Status::Wait,
+        private Role $role = Role::User,
     ) {
         $this->socialMedias = new ArrayObject();
     }
@@ -139,6 +140,16 @@ final class User
     public function id(): Id
     {
         return $this->id;
+    }
+
+    public function role(): Role
+    {
+        return $this->role;
+    }
+
+    public function changeRole(Role $role): void
+    {
+        $this->role = $role;
     }
 
     public function date(): DateTimeImmutable
