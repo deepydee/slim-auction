@@ -28,9 +28,23 @@ services:
       APP_ENV: prod
       APP_DEBUG: 0
     restart: always
-    
+  
   api-php-cli:
     image: ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
+  
+  api-postgres:
+    image: postgres:17.2-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${API_DB_PASSWORD}
+      POSTGRES_DB: app
+    volumes:
+      - api-postgres:/var/lib/postgresql/data
+    ports:
+      - "54321:5432"
+
+volumes:
+  api-postgres:
