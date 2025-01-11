@@ -27,7 +27,10 @@ services:
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
-      DB_URL: pgsql://app:${API_DB_PASSWORD}@api-postgres:5432/app
+      DB_HOST: api-postgres
+      DB_USER: app
+      DB_PASSWORD: ${API_DB_PASSWORD}
+      DB_NAME: app
     restart: always
   
   api-php-cli:
@@ -35,7 +38,10 @@ services:
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
-      DB_URL: pgsql://app:${API_DB_PASSWORD}@api-postgres:5432/app
+      DB_HOST: api-postgres
+      DB_USER: app
+      DB_PASSWORD: ${API_DB_PASSWORD}
+      DB_NAME: app
   
   api-postgres:
     image: postgres:17.2-alpine
