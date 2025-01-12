@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Auth\Entity\User\EmailType;
 use App\Auth\Entity\User\IdType;
 use App\Auth\Entity\User\RoleType;
+use App\Auth\Entity\User\StatusType;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Connection;
@@ -97,6 +98,7 @@ return [
                 IdType::NAME => IdType::class,
                 EmailType::NAME => EmailType::class,
                 RoleType::NAME => RoleType::class,
+                StatusType::NAME => StatusType::class,
             ],
         ],
     ],
