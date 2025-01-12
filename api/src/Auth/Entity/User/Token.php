@@ -8,16 +8,17 @@ use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 #[ORM\Embeddable]
 final readonly class Token
 {
-    #[ORM\Column(type: Types::STRING)]
-    private string $value;
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $value;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private DateTimeImmutable $expiresAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $expiresAt;
 
     public function __construct(string $value, DateTimeImmutable $expires)
     {
@@ -44,12 +45,12 @@ final readonly class Token
 
     public function value(): string
     {
-        return $this->value;
+        return $this->value ?? throw new RuntimeException('Empty value.');
     }
 
     public function expiresAt(): DateTimeImmutable
     {
-        return $this->expiresAt;
+        return $this->expiresAt  ?? throw new RuntimeException('Empty value.');
     }
 
     public function isExpiredTo(DateTimeImmutable $date): bool

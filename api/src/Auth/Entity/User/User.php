@@ -26,15 +26,17 @@ final class User
     private ?Email $newEmail = null;
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $passwordHash = null;
+    #[ORM\Embedded(class: Token::class)]
     private ?Token $joinConfirmationToken = null;
+    #[ORM\Embedded(class: Token::class)]
     private ?Token $passwordResetToken = null;
+    #[ORM\Embedded(class: Token::class)]
+    private ?Token $newEmailToken = null;
     #[ORM\Column(type: StatusType::NAME, length: 16)]
     private Status $status;
     #[ORM\Column(type: RoleType::NAME, length: 16)]
     private Role $role;
     private ArrayObject $socialMedias;
-
-    private ?Token $newEmailToken = null;
 
     private function __construct(
         Id $id,
