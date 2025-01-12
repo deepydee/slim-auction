@@ -9,7 +9,7 @@ use DomainException;
 interface UserRepository
 {
     public function hasByEmail(Email $email): bool;
-    public function hasBySocialMedia(SocialMediaIdentity $identity): bool;
+    public function hasBySocialMedia(SocialMedia $identity): bool;
     public function findByConfirmationToken(string $token): ?User;
     public function findByPasswordResetToken(string $token): ?User;
     public function findByNewEmailToken(string $token): ?User;

@@ -6,7 +6,7 @@ namespace App\Auth\Entity\User;
 
 use Webmozart\Assert\Assert;
 
-final readonly class SocialMediaIdentity
+final class SocialMedia
 {
     private string $name;
     private string $identity;

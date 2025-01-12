@@ -111,7 +111,7 @@ final class User
         Id $id,
         DateTimeImmutable $date,
         Email $email,
-        SocialMediaIdentity $identity
+        SocialMedia $identity
     ): self {
         $user = new self(
             id: $id,
@@ -125,9 +125,9 @@ final class User
         return $user;
     }
 
-    public function attachSocialMedia(SocialMediaIdentity $identity): void
+    public function attachSocialMedia(SocialMedia $identity): void
     {
-        /** @var SocialMediaIdentity $existing */
+        /** @var SocialMedia $existing */
         foreach ($this->socialMedias as $existing) {
             if ($existing->isEqualTo($identity)) {
                 throw new DomainException('Social media is already attached.');
@@ -216,10 +216,10 @@ final class User
         return $this->status->isWait();
     }
 
-    /** @return list<SocialMediaIdentity> */
+    /** @return list<SocialMedia> */
     public function socialMedias(): array
     {
-        /** @var list<SocialMediaIdentity> */
+        /** @var list<SocialMedia> */
         return $this->socialMedias->getArrayCopy();
     }
 }

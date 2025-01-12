@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth\Test\Unit\Entity\User\User;
 
-use App\Auth\Entity\User\SocialMediaIdentity;
+use App\Auth\Entity\User\SocialMedia;
 use App\Auth\Entity\User\User;
 use App\Auth\Test\Builder\UserBuilder;
 use DateMalformedStringException;
@@ -28,7 +28,7 @@ final class AttachSocialMediaTest extends TestCase
             ->active()
             ->build();
 
-        $socialMedia = new SocialMediaIdentity('vk', '0000001');
+        $socialMedia = new SocialMedia('vk', '0000001');
         $user->attachSocialMedia($socialMedia);
 
         self::assertCount(1, $socialMedias = $user->socialMedias());
@@ -45,7 +45,7 @@ final class AttachSocialMediaTest extends TestCase
             ->active()
             ->build();
 
-        $socialMedia = new SocialMediaIdentity('vk', '0000001');
+        $socialMedia = new SocialMedia('vk', '0000001');
 
         $user->attachSocialMedia($socialMedia);
 

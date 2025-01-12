@@ -6,7 +6,7 @@ namespace App\Auth\Command\JoinBySocialMedia;
 
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
-use App\Auth\Entity\User\SocialMediaIdentity;
+use App\Auth\Entity\User\SocialMedia;
 use App\Auth\Entity\User\User;
 use App\Auth\Entity\User\UserRepository;
 use App\Flusher;
@@ -23,7 +23,7 @@ final readonly class Handler
 
     public function handle(Command $command): void
     {
-        $identity = new SocialMediaIdentity($command->socialMedia, $command->identity);
+        $identity = new SocialMedia($command->socialMedia, $command->identity);
         $email = new Email($command->email);
 
         if ($this->users->hasBySocialMedia($identity)) {

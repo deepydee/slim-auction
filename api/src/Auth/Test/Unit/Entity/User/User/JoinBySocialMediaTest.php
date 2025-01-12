@@ -7,7 +7,7 @@ namespace App\Auth\Test\Unit\Entity\User\User;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
 use App\Auth\Entity\User\Role;
-use App\Auth\Entity\User\SocialMediaIdentity;
+use App\Auth\Entity\User\SocialMedia;
 use App\Auth\Entity\User\User;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -27,7 +27,7 @@ final class JoinBySocialMediaTest extends TestCase
             $id = Id::next(),
             $date = new DateTimeImmutable(),
             $email = new Email('email@app.test'),
-            $socialMedia = new SocialMediaIdentity('vk', '0000001')
+            $socialMedia = new SocialMedia('vk', '0000001')
         );
 
         self::assertEquals($id, $user->id());
