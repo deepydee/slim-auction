@@ -11,6 +11,7 @@
   "require": {
     "php": "^8.3",
     "doctrine/orm": "^3.3",
+    "laminas/laminas-config-aggregator": "^1.17",
     "php-di/php-di": "^7.0",
     "ramsey/uuid": "^4.7",
     "slim/psr7": "dev-master",
