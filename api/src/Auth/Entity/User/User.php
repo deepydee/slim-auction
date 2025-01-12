@@ -15,28 +15,43 @@ use DomainException;
 #[ORM\Table(name: IdType::NAME)]
 final class User
 {
-    private ArrayObject $socialMedias;
-    private ?Token $passwordResetToken = null;
+    #[ORM\Column(type: IdType::NAME)]
+    #[ORM\Id]
+    private readonly Id $id;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private readonly DateTimeImmutable $date;
+    #[ORM\Column(type: EmailType::NAME, unique: true)]
+    private Email $email;
     #[ORM\Column(type: EmailType::NAME, nullable: true)]
     private ?Email $newEmail = null;
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $passwordHash = null;
+    private ?Token $joinConfirmationToken = null;
+    private ?Token $passwordResetToken = null;
+    #[ORM\Column(type: StatusType::NAME, length: 16)]
+    private Status $status;
+    #[ORM\Column(type: RoleType::NAME, length: 16)]
+    private Role $role;
+    private ArrayObject $socialMedias;
+
     private ?Token $newEmailToken = null;
 
     private function __construct(
-        #[ORM\Column(type: IdType::NAME)]
-        #[ORM\Id]
-        private readonly Id $id,
-        #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-        private readonly DateTimeImmutable $date,
-        #[ORM\Column(type: EmailType::NAME, unique: true)]
-        private Email $email,
-        #[ORM\Column(type: Types::STRING, nullable: true)]
-        private ?string $passwordHash = null,
-        private ?Token $joinConfirmationToken = null,
-        #[ORM\Column(type: StatusType::NAME, length: 16)]
-        private Status $status = Status::Wait,
-        #[ORM\Column(type: RoleType::NAME, length: 16)]
-        private Role $role = Role::User,
+        Id $id,
+        DateTimeImmutable $date,
+        Email $email,
+        ?string $passwordHash = null,
+        ?Token $joinConfirmationToken = null,
+        Status $status = Status::Wait,
+        Role $role = Role::User,
     ) {
+        $this->id = $id;
+        $this->date = $date;
+        $this->email = $email;
+        $this->passwordHash = $passwordHash;
+        $this->joinConfirmationToken = $joinConfirmationToken;
+        $this->status = $status;
+        $this->role = $role;
         $this->socialMedias = new ArrayObject();
     }
 
