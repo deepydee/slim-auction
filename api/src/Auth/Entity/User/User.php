@@ -42,18 +42,13 @@ final class User
         Id $id,
         DateTimeImmutable $date,
         Email $email,
-        ?string $passwordHash = null,
-        ?Token $joinConfirmationToken = null,
         Status $status = Status::Wait,
-        Role $role = Role::User,
     ) {
         $this->id = $id;
         $this->date = $date;
         $this->email = $email;
-        $this->passwordHash = $passwordHash;
-        $this->joinConfirmationToken = $joinConfirmationToken;
         $this->status = $status;
-        $this->role = $role;
+        $this->role = Role::User;
         $this->socialMedias = new ArrayObject();
     }
 
@@ -64,13 +59,16 @@ final class User
         string $passwordHash,
         Token $token
     ): self {
-        return new self(
+        $user = new self(
             id: $id,
             date: $date,
             email: $email,
-            passwordHash: $passwordHash,
-            joinConfirmationToken: $token,
         );
+
+        $user->passwordHash = $passwordHash;
+        $user->joinConfirmationToken = $token;
+
+        return $user;
     }
 
     public function requestPasswordReset(Token $token, DateTimeImmutable $date): void
