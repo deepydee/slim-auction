@@ -43,7 +43,7 @@ final class UserBuilder
         return $clone;
     }
 
-    public function viaNetwork(?SocialMedia $identity = null): self
+    public function viaSocialMedia(?SocialMedia $identity = null): self
     {
         $clone = clone $this;
         $clone->socialMediaIdentity = $identity ?? new SocialMedia('vk', '0000001');

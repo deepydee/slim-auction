@@ -69,7 +69,7 @@ final class ChangePasswordTest extends TestCase
     public function user_cannot_change_password_without_old_password(): void
     {
         $user = (new UserBuilder())
-            ->viaNetwork()
+            ->viaSocialMedia()
             ->build();
 
         $hasher = $this->createHasher(false, 'new-hash');
