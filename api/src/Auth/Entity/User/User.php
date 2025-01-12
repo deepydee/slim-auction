@@ -38,6 +38,8 @@ final class User
     private Status $status;
     #[ORM\Column(type: RoleType::NAME, length: 16)]
     private Role $role;
+    /** @var Collection<array-key, UserSocialMedia>  */
+    #[ORM\OneToMany(targetEntity: UserSocialMedia::class, mappedBy: 'user', cascade: ['all'], orphanRemoval: true)]
     private Collection $socialMedias;
 
     private function __construct(
@@ -149,21 +151,20 @@ final class User
             status: Status::Active,
         );
 
-        $user->socialMedias->add($identity);
+        $user->socialMedias->add(new UserSocialMedia($user, $identity));
 
         return $user;
     }
 
     public function attachSocialMedia(SocialMedia $identity): void
     {
-        /** @var SocialMedia $existing */
         foreach ($this->socialMedias as $existing) {
-            if ($existing->isEqualTo($identity)) {
+            if ($existing->socialMedia()->isEqualTo($identity)) {
                 throw new DomainException('Social media is already attached.');
             }
         }
 
-        $this->socialMedias->add($identity);
+        $this->socialMedias->add(new UserSocialMedia($this, $identity));
     }
 
     public function id(): Id
@@ -249,7 +250,7 @@ final class User
     public function socialMedias(): array
     {
         /** @var list<SocialMedia> */
-        return $this->socialMedias->toArray();
+        return array_map(static fn (UserSocialMedia $socialMedia) => $socialMedia->socialMedia(), $this->socialMedias->toArray());
     }
 
     #[ORM\PostLoad()]
