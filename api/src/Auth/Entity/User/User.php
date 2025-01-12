@@ -7,6 +7,7 @@ namespace App\Auth\Entity\User;
 use App\Auth\Service\PasswordHasher;
 use ArrayObject;
 use DateTimeImmutable;
+use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use DomainException;
@@ -22,8 +23,10 @@ final class User
 
     private function __construct(
         private readonly Id $id,
+        #[Column(type: 'datetime_immutable')]
         private readonly DateTimeImmutable $date,
         private Email $email,
+        #[Column(type: 'string', nullable: true)]
         private ?string $passwordHash = null,
         private ?Token $joinConfirmationToken = null,
         private Status $status = Status::Wait,
