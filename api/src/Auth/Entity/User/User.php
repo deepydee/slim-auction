@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Auth\Entity\User;
 
 use App\Auth\Service\PasswordHasher;
-use ArrayObject;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
@@ -37,7 +38,7 @@ final class User
     private Status $status;
     #[ORM\Column(type: RoleType::NAME, length: 16)]
     private Role $role;
-    private ArrayObject $socialMedias;
+    private Collection $socialMedias;
 
     private function __construct(
         Id $id,
@@ -50,7 +51,7 @@ final class User
         $this->email = $email;
         $this->status = $status;
         $this->role = Role::User;
-        $this->socialMedias = new ArrayObject();
+        $this->socialMedias = new ArrayCollection();
     }
 
     public static function requestJoinByEmail(
@@ -148,7 +149,7 @@ final class User
             status: Status::Active,
         );
 
-        $user->socialMedias->append($identity);
+        $user->socialMedias->add($identity);
 
         return $user;
     }
@@ -162,7 +163,7 @@ final class User
             }
         }
 
-        $this->socialMedias->append($identity);
+        $this->socialMedias->add($identity);
     }
 
     public function id(): Id
@@ -248,7 +249,7 @@ final class User
     public function socialMedias(): array
     {
         /** @var list<SocialMedia> */
-        return $this->socialMedias->getArrayCopy();
+        return $this->socialMedias->toArray();
     }
 
     #[ORM\PostLoad()]
