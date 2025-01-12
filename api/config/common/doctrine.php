@@ -47,11 +47,11 @@ return [
 
         $config->setNamingStrategy(new UnderscoreNamingStrategy());
 
-        foreach ($settings['types'] as $name => $class) {
-            if (! Type::hasType($name)) {
-                Type::addType($name, $class);
-            }
-        }
+        //        foreach ($settings['types'] as $name => $class) {
+        //            if (! Type::hasType($name)) {
+        //                Type::addType($name, $class);
+        //            }
+        //        }
 
         $eventManager = new EventManager();
 

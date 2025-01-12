@@ -26,4 +26,4 @@ $files = array_merge($common, $other);
  */
 $configs = array_map(static fn (string $file): array => require $file, $files);
 
-return array_merge_recursive(...$configs);
+return array_replace_recursive(...$configs);
