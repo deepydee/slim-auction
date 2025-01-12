@@ -7,29 +7,34 @@ namespace App\Auth\Entity\User;
 use App\Auth\Service\PasswordHasher;
 use ArrayObject;
 use DateTimeImmutable;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 
-#[Entity]
-#[Table(name: 'auth_users')]
+#[ORM\Entity]
+#[ORM\Table(name: IdType::NAME)]
 final class User
 {
     private ArrayObject $socialMedias;
     private ?Token $passwordResetToken = null;
+    #[ORM\Column(type: EmailType::NAME, nullable: true)]
     private ?Email $newEmail = null;
     private ?Token $newEmailToken = null;
 
     private function __construct(
+        #[ORM\Column(type: IdType::NAME)]
+        #[ORM\Id]
         private readonly Id $id,
-        #[Column(type: 'datetime_immutable')]
+        #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
         private readonly DateTimeImmutable $date,
+        #[ORM\Column(type: EmailType::NAME, unique: true)]
         private Email $email,
-        #[Column(type: 'string', nullable: true)]
+        #[ORM\Column(type: Types::STRING, nullable: true)]
         private ?string $passwordHash = null,
         private ?Token $joinConfirmationToken = null,
+        #[ORM\Column(type: StatusType::NAME, length: 16)]
         private Status $status = Status::Wait,
+        #[ORM\Column(type: RoleType::NAME, length: 16)]
         private Role $role = Role::User,
     ) {
         $this->socialMedias = new ArrayObject();

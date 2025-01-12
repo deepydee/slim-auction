@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Auth\Entity\User\EmailType;
+use App\Auth\Entity\User\IdType;
+use App\Auth\Entity\User\RoleType;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Connection;
@@ -47,11 +50,11 @@ return [
 
         $config->setNamingStrategy(new UnderscoreNamingStrategy());
 
-        //        foreach ($settings['types'] as $name => $class) {
-        //            if (! Type::hasType($name)) {
-        //                Type::addType($name, $class);
-        //            }
-        //        }
+        foreach ($settings['types'] as $name => $class) {
+            if (! Type::hasType($name)) {
+                Type::addType($name, $class);
+            }
+        }
 
         $eventManager = new EventManager();
 
@@ -89,6 +92,11 @@ return [
             'subscribers' => [],
             'metadata_dirs' => [
                 __DIR__ . '/../../src/Auth/Entity',
+            ],
+            'types' => [
+                IdType::NAME => IdType::class,
+                EmailType::NAME => EmailType::class,
+                RoleType::NAME => RoleType::class,
             ],
         ],
     ],
