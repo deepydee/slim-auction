@@ -7,8 +7,12 @@ namespace App\Auth\Entity\User;
 use App\Auth\Service\PasswordHasher;
 use ArrayObject;
 use DateTimeImmutable;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
 use DomainException;
 
+#[Entity]
+#[Table(name: 'auth_users')]
 final class User
 {
     private ArrayObject $socialMedias;

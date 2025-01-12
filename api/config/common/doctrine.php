@@ -87,7 +87,9 @@ return [
                 'charset' => 'utf-8',
             ],
             'subscribers' => [],
-            'metadata_dirs' => [],
+            'metadata_dirs' => [
+                __DIR__ . '/../../src/Auth/Entity',
+            ],
         ],
     ],
 ];
