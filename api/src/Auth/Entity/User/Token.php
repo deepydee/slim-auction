@@ -57,4 +57,9 @@ final readonly class Token
     {
         return $this->expiresAt <= $date;
     }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->value);
+    }
 }

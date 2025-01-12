@@ -13,6 +13,7 @@ use DomainException;
 
 #[ORM\Entity]
 #[ORM\Table(name: IdType::NAME)]
+#[ORM\HasLifecycleCallbacks]
 final class User
 {
     #[ORM\Column(type: IdType::NAME)]
@@ -248,5 +249,19 @@ final class User
     {
         /** @var list<SocialMedia> */
         return $this->socialMedias->getArrayCopy();
+    }
+
+    #[ORM\PostLoad()]
+    public function checkEmbeds(): void
+    {
+        if ($this->joinConfirmationToken && $this->joinConfirmationToken->isEmpty()) {
+            $this->joinConfirmationToken = null;
+        }
+        if ($this->passwordResetToken && $this->passwordResetToken->isEmpty()) {
+            $this->passwordResetToken = null;
+        }
+        if ($this->newEmailToken && $this->newEmailToken->isEmpty()) {
+            $this->newEmailToken = null;
+        }
     }
 }
