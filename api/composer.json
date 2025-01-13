@@ -10,6 +10,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": "^8.3",
+    "doctrine/migrations": "^3.8",
     "doctrine/orm": "^3.3",
     "laminas/laminas-config-aggregator": "^1.17",
     "php-di/php-di": "^7.0",

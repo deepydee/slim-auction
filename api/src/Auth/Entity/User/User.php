@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DomainException;
 
 #[ORM\Entity]
-#[ORM\Table(name: IdType::NAME)]
+#[ORM\Table(name: 'auth_users')]
 #[ORM\HasLifecycleCallbacks]
 final class User
 {
