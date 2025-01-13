@@ -26,7 +26,7 @@ docker-pull:
 docker-build:
 	docker compose build --pull
 
-api-init: api-composer-install api-wait-db api-migrations
+api-init: api-composer-install api-wait-db api-migrations api-fixtures
 
 api-clear:
 	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/*'
@@ -49,6 +49,9 @@ api-analyze:
 
 api-migrations:
 	docker compose run --rm api-php-cli composer app migrations:migrate -- --no-interaction
+
+api-fixtures:
+	docker compose run --rm api-php-cli composer app fixtures:load
 
 api-validate-schema:
 	docker compose run --rm api-php-cli composer app orm:validate-schema -- -v
