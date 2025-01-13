@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Console\FixturesLoadCommand;
 use Doctrine\Migrations;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand;
