@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Doctrine\Migrations;
 use Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand;
 use Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider;
@@ -20,6 +21,8 @@ return [
             'commands' => [
                 CreateCommand::class,
                 DropCommand::class,
+                Migrations\Tools\Console\Command\DiffCommand::class,
+                Migrations\Tools\Console\Command\GenerateCommand::class,
             ],
         ],
     ],
