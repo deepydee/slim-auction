@@ -31,6 +31,12 @@ services:
       DB_USER: app
       DB_PASSWORD: ${API_DB_PASSWORD}
       DB_NAME: app
+      MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
+      MAILER_HOST: ${API_MAILER_HOST}
+      MAILER_PORT: ${API_MAILER_PORT}
+      MAILER_USERNAME: ${API_MAILER_USERNAME}
+      MAILER_PASSWORD: ${API_MAILER_PASSWORD}
+      MAILER_ENCRYPTION: tls
     restart: always
   
   api-php-cli:
@@ -42,6 +48,12 @@ services:
       DB_USER: app
       DB_PASSWORD: ${API_DB_PASSWORD}
       DB_NAME: app
+      MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
+      MAILER_HOST: ${API_MAILER_HOST}
+      MAILER_PORT: ${API_MAILER_PORT}
+      MAILER_USERNAME: ${API_MAILER_USERNAME}
+      MAILER_PASSWORD: ${API_MAILER_PASSWORD}
+      MAILER_ENCRYPTION: tls
   
   api-postgres:
     image: postgres:17.2-alpine
