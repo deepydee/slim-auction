@@ -52,7 +52,9 @@ return [
                 FilesystemLoader::MAIN_NAMESPACE => __DIR__ . '/../../templates',
             ],
             'cache_dir' => __DIR__ . '/../../var/cache/twig',
-            'extensions' => [],
+            'extensions' => [
+                \App\Frontend\FrontendUrlTwigExtension::class,
+            ],
         ],
     ],
 ];
