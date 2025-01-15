@@ -29,7 +29,6 @@ final class JoinConfirmationSenderTest extends TestCase
     #[Test]
     public function join_confirmation_email_can_be_successfully_sent(): void
     {
-        $from = ['email' => 'test@app.test', 'name' => 'Test'];
         $to = new Email('user@app.test');
         $token = new Token(Uuid::uuid4()->toString(), new DateTimeImmutable());
         $body = '/join/confirm?token=' . $token->value();
@@ -43,7 +42,7 @@ final class JoinConfirmationSenderTest extends TestCase
                 self::assertSame($body, $message->getTextBody());
             });
 
-        $sender = new JoinConfirmationSender($mailer, $from);
+        $sender = new JoinConfirmationSender($mailer);
 
         $sender->send($to, $token);
     }
