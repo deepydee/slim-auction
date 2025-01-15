@@ -7,7 +7,6 @@ namespace App\Auth\Test\Unit\Service;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Token;
 use App\Auth\Service\JoinConfirmationSender;
-use App\Frontend\FrontendUrlGenerator;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -35,21 +34,12 @@ final class JoinConfirmationSenderTest extends TestCase
         $token = new Token(Uuid::uuid4()->toString(), new DateTimeImmutable());
         $confirmUrl = 'http://test/join/confirm?token=' . $token->value();
 
-        $urlGenerator = $this->createMock(FrontendUrlGenerator::class);
-        $urlGenerator->expects(self::once())
-            ->method('generate')
-            ->with(
-                self::equalTo('join/confirm'),
-                self::equalTo(['token' => $token->value()]),
-            )
-            ->willReturn($confirmUrl);
-
         $twig = $this->createMock(Environment::class);
         $twig->expects(self::once())
             ->method('render')
             ->with(
                 self::equalTo('auth/join/confirm.html.twig'),
-                self::equalTo(['url' => $confirmUrl]),
+                self::equalTo(['token' => $token]),
             )
             ->willReturn($body = '<a href="' . $confirmUrl . '">' . $confirmUrl . '</a>');
 
@@ -63,7 +53,7 @@ final class JoinConfirmationSenderTest extends TestCase
                 self::assertEquals('text/html', $message->getHtmlCharset());
             });
 
-        $sender = new JoinConfirmationSender($mailer, $urlGenerator, $twig);
+        $sender = new JoinConfirmationSender($mailer, $twig);
 
         $sender->send($to, $token);
     }

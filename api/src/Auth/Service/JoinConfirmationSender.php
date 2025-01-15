@@ -6,7 +6,6 @@ namespace App\Auth\Service;
 
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Token;
-use App\Frontend\FrontendUrlGenerator;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email as MimeEmail;
@@ -19,7 +18,6 @@ final readonly class JoinConfirmationSender
 {
     public function __construct(
         private MailerInterface $mailer,
-        private FrontendUrlGenerator $urlGenerator,
         private Environment $twig,
     ) {
     }
@@ -36,9 +34,7 @@ final readonly class JoinConfirmationSender
         $message = (new MimeEmail())
             ->to($email->value())
             ->subject('Join Confirmation')
-            ->html($this->twig->render('auth/join/confirm.html.twig', [
-                'url' => $this->urlGenerator->generate('join/confirm', ['token' => $token->value()]),
-            ]), 'text/html');
+            ->html($this->twig->render('auth/join/confirm.html.twig', ['token' => $token]), 'text/html');
 
         $this->mailer->send($message);
     }
