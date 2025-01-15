@@ -17,6 +17,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email as MimeEmail;
+use Twig\Environment;
 
 /**
  * @internal
@@ -43,16 +44,26 @@ final class JoinConfirmationSenderTest extends TestCase
             )
             ->willReturn($confirmUrl);
 
+        $twig = $this->createMock(Environment::class);
+        $twig->expects(self::once())
+            ->method('render')
+            ->with(
+                self::equalTo('auth/join/confirm.html.twig'),
+                self::equalTo(['url' => $confirmUrl]),
+            )
+            ->willReturn($body = '<a href="' . $confirmUrl . '">' . $confirmUrl . '</a>');
+
         $mailer = $this->createMock(MailerInterface::class);
         $mailer->expects(self::once())
             ->method('send')
-            ->willReturnCallback(static function (MimeEmail $message) use ($to, $confirmUrl): void {
+            ->willReturnCallback(static function (MimeEmail $message) use ($to, $body): void {
                 self::assertSame($to->value(), $message->getTo()[0]->getAddress());
                 self::assertSame('Join Confirmation', $message->getSubject());
-                self::assertSame($confirmUrl, $message->getTextBody());
+                self::assertEquals($body, $message->getHtmlBody());
+                self::assertEquals('text/html', $message->getHtmlCharset());
             });
 
-        $sender = new JoinConfirmationSender($mailer, $urlGenerator);
+        $sender = new JoinConfirmationSender($mailer, $urlGenerator, $twig);
 
         $sender->send($to, $token);
     }

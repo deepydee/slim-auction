@@ -10,25 +10,36 @@ use App\Frontend\FrontendUrlGenerator;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email as MimeEmail;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 final readonly class JoinConfirmationSender
 {
     public function __construct(
         private MailerInterface $mailer,
         private FrontendUrlGenerator $urlGenerator,
+        private Environment $twig,
     ) {
     }
 
     /**
+     *
      * @throws TransportExceptionInterface
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function send(Email $email, Token $token): void
     {
-        $emailInstance = (new MimeEmail())
+        $message = (new MimeEmail())
             ->to($email->value())
             ->subject('Join Confirmation')
-            ->text($this->urlGenerator->generate(uri: 'join/confirm', params: ['token' => $token->value()]));
+            ->html($this->twig->render('auth/join/confirm.html.twig', [
+                'url' => $this->urlGenerator->generate('join/confirm', ['token' => $token->value()]),
+            ]), 'text/html');
 
-        $this->mailer->send($emailInstance);
+        $this->mailer->send($message);
     }
 }
