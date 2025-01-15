@@ -23,10 +23,16 @@ return [
         $mailer = $container->get(MailerInterface::class);
         /**
          * @psalm-suppress MixedArrayAccess
-         * @psalm-var array{from:array} $mailerConfig
+         * @var array{from: array} $mailerConfig
          */
         $mailerConfig = $container->get('config')['mailer'];
 
-        return new JoinConfirmationSender($mailer, $mailerConfig['from']);
+        /**
+         * @psalm-suppress MixedArrayAccess
+         * @var array{url: string} $frontendConfig
+         */
+        $frontendConfig = $container->get('config')['frontend'];
+
+        return new JoinConfirmationSender($mailer, $frontendConfig['url']);
     },
 ];

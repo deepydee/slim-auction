@@ -37,6 +37,7 @@ services:
       MAILER_USERNAME: ${API_MAILER_USERNAME}
       MAILER_PASSWORD: ${API_MAILER_PASSWORD}
       MAILER_ENCRYPTION: tls
+      FRONTEND_URL: https://auction.whatiswebdev.com/
     restart: always
   
   api-php-cli:
@@ -54,6 +55,7 @@ services:
       MAILER_USERNAME: ${API_MAILER_USERNAME}
       MAILER_PASSWORD: ${API_MAILER_PASSWORD}
       MAILER_ENCRYPTION: tls
+      FRONTEND_URL: https://auction.whatiswebdev.com/
   
   api-postgres:
     image: postgres:17.2-alpine

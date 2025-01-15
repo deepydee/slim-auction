@@ -53,6 +53,7 @@ services:
       MAILER_USER: app
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
+      FRONTEND_URL: http://auction.test:8080
     volumes:
       - ./api:/app
   
@@ -76,6 +77,7 @@ services:
       MAILER_USERNAME: app
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
+      FRONTEND_URL: http://auction.test:8080
     volumes:
       - ./api:/app
     networks:

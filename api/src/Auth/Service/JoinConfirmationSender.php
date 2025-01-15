@@ -12,7 +12,7 @@ use Symfony\Component\Mime\Email as MimeEmail;
 
 final readonly class JoinConfirmationSender
 {
-    public function __construct(private MailerInterface $mailer)
+    public function __construct(private MailerInterface $mailer, private string $frontendUrl)
     {
     }
 
@@ -21,7 +21,7 @@ final readonly class JoinConfirmationSender
      */
     public function send(Email $email, Token $token): void
     {
-        $path = '/join/confirm?' . http_build_query(['token' => $token->value()]);
+        $path = $this->frontendUrl . '/join/confirm?' . http_build_query(['token' => $token->value()]);
 
         $emailInstance = (new MimeEmail())
             ->to($email->value())
