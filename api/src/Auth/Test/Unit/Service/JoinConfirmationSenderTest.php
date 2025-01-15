@@ -7,6 +7,7 @@ namespace App\Auth\Test\Unit\Service;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Token;
 use App\Auth\Service\JoinConfirmationSender;
+use App\Frontend\FrontendUrlGenerator;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -29,21 +30,29 @@ final class JoinConfirmationSenderTest extends TestCase
     #[Test]
     public function join_confirmation_email_can_be_successfully_sent(): void
     {
-        $frontendUrl = 'http://test';
         $to = new Email('user@app.test');
         $token = new Token(Uuid::uuid4()->toString(), new DateTimeImmutable());
-        $body = $frontendUrl . '/join/confirm?token=' . $token->value();
+        $confirmUrl = 'http://test/join/confirm?token=' . $token->value();
+
+        $urlGenerator = $this->createMock(FrontendUrlGenerator::class);
+        $urlGenerator->expects(self::once())
+            ->method('generate')
+            ->with(
+                self::equalTo('join/confirm'),
+                self::equalTo(['token' => $token->value()]),
+            )
+            ->willReturn($confirmUrl);
 
         $mailer = $this->createMock(MailerInterface::class);
-
-        $mailer->expects(self::once())->method('send')
-            ->willReturnCallback(static function (MimeEmail $message) use ($to, $body): void {
+        $mailer->expects(self::once())
+            ->method('send')
+            ->willReturnCallback(static function (MimeEmail $message) use ($to, $confirmUrl): void {
                 self::assertSame($to->value(), $message->getTo()[0]->getAddress());
                 self::assertSame('Join Confirmation', $message->getSubject());
-                self::assertSame($body, $message->getTextBody());
+                self::assertSame($confirmUrl, $message->getTextBody());
             });
 
-        $sender = new JoinConfirmationSender($mailer, $frontendUrl);
+        $sender = new JoinConfirmationSender($mailer, $urlGenerator);
 
         $sender->send($to, $token);
     }
