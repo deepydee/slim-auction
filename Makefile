@@ -29,7 +29,7 @@ docker-build:
 api-init: api-composer-install api-wait-db api-migrations api-fixtures
 
 api-clear:
-	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/*'
+	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/cache/* car/log/*'
 
 api-composer-install:
 	docker compose run --rm api-php-cli composer install

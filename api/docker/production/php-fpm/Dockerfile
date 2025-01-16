@@ -34,5 +34,7 @@ WORKDIR /app
 COPY --chown=webserver --from=builder /app ./
 COPY --chown=webserver ./ ./
 
+RUN chown webserver:webserver -R ./var
+
 USER webserver
 
