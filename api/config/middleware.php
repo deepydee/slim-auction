@@ -2,16 +2,9 @@
 
 declare(strict_types=1);
 
-use Psr\Container\ContainerInterface;
 use Slim\App;
+use Slim\Middleware\ErrorMiddleware;
 
-return static function (App $app, ContainerInterface $container): void {
-    /** @var array{debug: bool, env: string} $config */
-    $config = $container->get('config');
-
-    $app->addErrorMiddleware(
-        displayErrorDetails: $config['debug'],
-        logErrors: $config['env'] !== 'test',
-        logErrorDetails: true,
-    );
+return static function (App $app): void {
+    $app->add(ErrorMiddleware::class);
 };
