@@ -61,8 +61,8 @@ services:
     build:
       context: api/docker
       dockerfile: development/php-cli/Dockerfile
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      extra_hosts:
+        - 'host.docker.internal:host-gateway'
     environment:
       APP_ENV: dev
       APP_DEBUG: 1
@@ -81,6 +81,7 @@ services:
     volumes:
       - ./api:/app
     networks:
+      - default
       - dev-proxy
   
   api-postgres:
