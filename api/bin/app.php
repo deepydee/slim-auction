@@ -9,10 +9,22 @@ use Symfony\Component\Console\Command\Command;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+if (getenv('SENTRY_DSN')) {
+    \Sentry\init([
+        'dsn' => getenv('SENTRY_DSN'),
+        'traces_sample_rate' => 1.0,
+        'profiles_sample_rate' => 1.0,
+    ]);
+}
+
 /** @var ContainerInterface $container */
 $container = require __DIR__ . '/../config/container.php';
 
 $cli = new Application('Console');
+
+if (getenv('SENTRY_DSN')) {
+    $cli->setCatchExceptions(false);
+}
 
 /** @var array<string, array<string, mixed>> $config */
 $config = $container->get('config');

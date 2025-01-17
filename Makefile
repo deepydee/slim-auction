@@ -116,6 +116,7 @@ deploy:
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "MAILER_PASSWORD=${API_MAILER_PASSWORD}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "MAILER_PORT=${API_MAILER_PORT}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "MAILER_USER=${API_MAILER_USERNAME}" >> .env'
+	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "SENTRY_DSN=${SENTRY_DSN}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose -f docker-compose-production.yml pull'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose up --build -d api-postgres api-php-cli'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose run api-php-cli wait-for-it api-postgres:5432 -t 60'

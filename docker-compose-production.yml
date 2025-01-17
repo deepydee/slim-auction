@@ -38,6 +38,7 @@ services:
       MAILER_PASSWORD: ${API_MAILER_PASSWORD}
       MAILER_ENCRYPTION: tls
       FRONTEND_URL: https://auction.whatiswebdev.com/
+      SENTRY_DSN: ${SENTRY_DSN}
     restart: always
   
   api-php-cli:
@@ -56,6 +57,7 @@ services:
       MAILER_PASSWORD: ${API_MAILER_PASSWORD}
       MAILER_ENCRYPTION: tls
       FRONTEND_URL: https://auction.whatiswebdev.com/
+      SENTRY_DSN: ${SENTRY_DSN}
   
   api-postgres:
     image: postgres:17.2-alpine
