@@ -11,8 +11,10 @@ RUN apk add --no-cache postgresql-dev fcgi git linux-headers \
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 
-COPY ./common/php/conf.d /usr/local/etc/php/conf.d
-COPY ./development/php/conf.d /usr/local/etc/php/conf.d
-COPY ./development/php-fpm/conf.d /usr/local/etc/php/conf.d
+RUN addgroup -g 1000 webserver && adduser -G webserver -g webserver -s /bin/sh -D webserver
+
+COPY --chown=webserver ./common/php/conf.d /usr/local/etc/php/conf.d
+COPY --chown=webserver ./development/php/conf.d /usr/local/etc/php/conf.d
+COPY --chown=webserver ./development/php-fpm/conf.d /usr/local/etc/php/conf.d
 
 WORKDIR /app

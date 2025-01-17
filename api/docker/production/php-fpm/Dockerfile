@@ -2,7 +2,7 @@ FROM php:8.3-cli-alpine3.18 AS builder
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --version=2.7.2 --quiet
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --version=2.8.4 --quiet
 
 WORKDIR /app
 
@@ -33,8 +33,6 @@ WORKDIR /app
 
 COPY --chown=webserver --from=builder /app ./
 COPY --chown=webserver ./ ./
-
-RUN chown webserver:webserver -R ./var
 
 USER webserver
 
