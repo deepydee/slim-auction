@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
+use JsonException;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,11 +22,18 @@ abstract class WebTestCase extends TestCase
         return (require __DIR__ . '/../../config/app.php')($this->container());
     }
 
-    protected static function json(string $method, string $path): ServerRequestInterface
+    /** @param  array<string, mixed>  $body
+     * @throws JsonException
+     */
+    protected static function json(string $method, string $path, array $body = []): ServerRequestInterface
     {
-        return self::request($method, $path)
+        $request = self::request($method, $path)
             ->withHeader('Accept', 'application/json')
             ->withHeader('Content-Type', 'application/json');
+
+        $request->getBody()->write(json_encode($body, JSON_THROW_ON_ERROR));
+
+        return $request;
     }
 
     protected static function request(string $method, string $path): ServerRequestInterface
