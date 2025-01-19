@@ -14,6 +14,10 @@ use App\Auth\Service\Tokenizer;
 use App\Flusher;
 use DateTimeImmutable;
 use DomainException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 final class Handler
 {
@@ -26,6 +30,12 @@ final class Handler
     ) {
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws TransportExceptionInterface
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function handle(Command $command): void
     {
         $email = new Email($command->email);
