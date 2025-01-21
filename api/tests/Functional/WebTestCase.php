@@ -21,10 +21,22 @@ use Slim\Psr7\Factory\ServerRequestFactory;
  */
 abstract class WebTestCase extends TestCase
 {
+    private ?App $app = null;
+
+    protected function tearDown(): void
+    {
+        $this->app = null;
+        parent::tearDown();
+    }
+
     protected function app(): App
     {
-        /** @var App */
-        return (require __DIR__ . '/../../config/app.php')($this->container());
+        if (is_null($this->app)) {
+            /** @var App $this->app */
+            $this->app = (require __DIR__ . '/../../config/app.php')($this->container());
+        }
+
+        return $this->app;
     }
 
     /** @param  array<string, mixed>  $body
