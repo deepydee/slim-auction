@@ -31,8 +31,8 @@ final readonly class RequestAction implements RequestHandlerInterface
         $data = $request->getParsedBody();
 
         $command = new Command(
-            email: trim($data['email'] ?? ''),
-            password: trim($data['password'] ?? ''),
+            email: $data['email'] ?? '',
+            password: $data['password'] ?? '',
         );
 
         try {
