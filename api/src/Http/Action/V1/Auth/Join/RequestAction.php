@@ -7,8 +7,6 @@ namespace App\Http\Action\V1\Auth\Join;
 use App\Auth\Command\JoinByEmail\Request\Command;
 use App\Auth\Command\JoinByEmail\Request\Handler;
 use App\Http\EmptyResponse;
-use App\Http\JsonResponse;
-use DomainException;
 use JsonException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,12 +33,8 @@ final readonly class RequestAction implements RequestHandlerInterface
             password: $data['password'] ?? '',
         );
 
-        try {
-            $this->handler->handle($command);
+        $this->handler->handle($command);
 
-            return new EmptyResponse(201);
-        } catch (DomainException $exception) {
-            return new JsonResponse(['message' => $exception->getMessage()], 409);
-        }
+        return new EmptyResponse(201);
     }
 }
