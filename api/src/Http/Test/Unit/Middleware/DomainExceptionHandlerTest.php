@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
 
@@ -27,7 +28,10 @@ final class DomainExceptionHandlerTest extends TestCase
     #[Test]
     public function domain_exception_is_not_handled(): void
     {
-        $middleware = new DomainExceptionHandler();
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::never())->method('warning');
+
+        $middleware = new DomainExceptionHandler($logger);
 
         $handler = self::createStub(RequestHandlerInterface::class);
         $handler->method('handle')->willReturn($source = (new ResponseFactory())->createResponse());
@@ -45,7 +49,10 @@ final class DomainExceptionHandlerTest extends TestCase
     #[Test]
     public function domain_exception_is_handled_correctly(): void
     {
-        $middleware = new DomainExceptionHandler();
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::once())->method('warning');
+
+        $middleware = new DomainExceptionHandler($logger);
 
         $handler = self::createStub(RequestHandlerInterface::class);
         $handler->method('handle')->willThrowException(new DomainException('Some error.'));
