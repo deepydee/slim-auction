@@ -17,6 +17,15 @@ use Test\Functional\WebTestCase;
 #[CoversClass(RequestAction::class)]
 final class RequestTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadFixtures([
+            RequestFixture::class,
+        ]);
+    }
+
     /**
      * @throws JsonException
      */
@@ -50,7 +59,7 @@ final class RequestTest extends WebTestCase
     public function user_with_an_existing_email_cannot_join(): void
     {
         $response = $this->app()->handle(self::json('POST', '/v1/auth/join', [
-            'email' => 'user@app.test',
+            'email' => 'existing@app.test',
             'password' => 'new-password',
         ]));
 

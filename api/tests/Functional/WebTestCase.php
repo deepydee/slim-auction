@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\ORM\EntityManagerInterface;
 use JsonException;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -39,6 +44,26 @@ abstract class WebTestCase extends TestCase
     protected static function request(string $method, string $path): ServerRequestInterface
     {
         return (new ServerRequestFactory())->createServerRequest($method, $path);
+    }
+
+    /**
+     * @param array<int|string, string> $fixtures
+     */
+    protected function loadFixtures(array $fixtures): void
+    {
+        /** @var ContainerInterface $container */
+        $container = $this->app()->getContainer();
+        $loader = new Loader();
+
+        foreach ($fixtures as $class) {
+            /** @var AbstractFixture $fixture */
+            $fixture = $container->get($class);
+            $loader->addFixture($fixture);
+        }
+
+        $em = $container->get(EntityManagerInterface::class);
+        $executor = new ORMExecutor($em, new ORMPurger($em));
+        $executor->execute($loader->getFixtures());
     }
 
     private function container(): ContainerInterface
