@@ -22,6 +22,7 @@ use Slim\Psr7\Factory\ServerRequestFactory;
 abstract class WebTestCase extends TestCase
 {
     private ?App $app = null;
+    private ?MailerClient $mailer = null;
 
     protected function tearDown(): void
     {
@@ -37,6 +38,15 @@ abstract class WebTestCase extends TestCase
         }
 
         return $this->app;
+    }
+
+    protected function mailer(): MailerClient
+    {
+        if (is_null($this->mailer)) {
+            $this->mailer = new MailerClient();
+        }
+
+        return $this->mailer;
     }
 
     /** @param  array<string, mixed>  $body

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Test\Functional\V1\Auth\Join;
 
 use App\Http\Action\V1\Auth\Join\RequestAction;
+use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -39,10 +40,13 @@ final class RequestTest extends WebTestCase
 
     /**
      * @throws JsonException
+     * @throws GuzzleException
      */
     #[Test]
     public function user_can_join_by_email(): void
     {
+        $this->mailer()->clear();
+
         $response = $this->app()->handle(self::json('POST', '/v1/auth/join', [
             'email' => 'new-user@app.test',
             'password' => 'new-password',
@@ -50,6 +54,7 @@ final class RequestTest extends WebTestCase
 
         self::assertEquals(201, $response->getStatusCode());
         self::assertEquals('', (string) $response->getBody());
+        self::assertTrue($this->mailer()->hasEmailSentTo('new-user@app.test'));
     }
 
     /**
