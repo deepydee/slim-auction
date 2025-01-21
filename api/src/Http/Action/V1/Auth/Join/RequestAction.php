@@ -28,7 +28,7 @@ final readonly class RequestAction implements RequestHandlerInterface
         /**
          * @var array{email: ?string, password: ?string} $data
          */
-        $data = json_decode((string) $request->getBody(), true, 512, JSON_THROW_ON_ERROR);
+        $data = $request->getParsedBody();
 
         $command = new Command(
             email: trim($data['email'] ?? ''),
