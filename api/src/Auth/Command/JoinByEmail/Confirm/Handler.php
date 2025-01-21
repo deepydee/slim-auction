@@ -19,7 +19,7 @@ final readonly class Handler
 
     public function handle(Command $command): void
     {
-        if (! $user = $this->users->findByConfirmationToken($command->token)) {
+        if (! $user = $this->users->findByJoinConfirmationToken($command->token)) {
             throw new DomainException('Invalid token.');
         }
 
