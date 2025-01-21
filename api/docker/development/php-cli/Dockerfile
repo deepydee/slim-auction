@@ -19,7 +19,7 @@ COPY ./development/php/conf.d /usr/local/etc/php/conf.d
 COPY ./common/wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod 555 /usr/local/bin/wait-for-it
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --version=2.8.4 --quiet
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --version=2.8.3 --quiet
 
 RUN addgroup -g 1000 webserver && adduser -G webserver -g webserver -s /bin/sh -D webserver
 
