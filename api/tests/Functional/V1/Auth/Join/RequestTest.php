@@ -82,8 +82,6 @@ final class RequestTest extends WebTestCase
     #[Test]
     public function user_with_empty_data_cannot_join(): void
     {
-        self::markTestIncomplete('Waiting for validation.');
-
         $response = $this->app()->handle(self::json('POST', '/v1/auth/join', []));
 
         self::assertEquals(422, $response->getStatusCode());
@@ -103,7 +101,6 @@ final class RequestTest extends WebTestCase
     #[Test]
     public function user_with_invalid_email_cannot_join(): void
     {
-        self::markTestIncomplete('Waiting for validation.');
         $response = $this->app()->handle(self::json('POST', '/v1/auth/join', [
             'email' => 'not-email',
             'password' => '',
