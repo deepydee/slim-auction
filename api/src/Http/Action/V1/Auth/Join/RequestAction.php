@@ -8,17 +8,18 @@ use App\Auth\Command\JoinByEmail\Request\Command;
 use App\Auth\Command\JoinByEmail\Request\Handler;
 use App\Http\EmptyResponse;
 use App\Http\JsonResponse;
+use App\Http\Validator\ValidationException;
+use App\Http\Validator\Validator;
 use JsonException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final readonly class RequestAction implements RequestHandlerInterface
 {
     public function __construct(
         private Handler $handler,
-        private ValidatorInterface $validator,
+        private Validator $validator,
     ) {
     }
 
@@ -37,10 +38,11 @@ final readonly class RequestAction implements RequestHandlerInterface
             password: $data['password'] ?? '',
         );
 
-        $violations = $this->validator->validate($command);
-        if ($violations->count() > 0) {
+        try {
+            $this->validator->validate($command);
+        } catch (ValidationException $exception) {
             $errors = [];
-            foreach ($violations as $violation) {
+            foreach ($exception->getViolations() as $violation) {
                 $errors[$violation->getPropertyPath()] = $violation->getMessage();
             }
 
