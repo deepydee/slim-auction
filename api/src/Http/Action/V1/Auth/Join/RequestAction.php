@@ -38,16 +38,7 @@ final readonly class RequestAction implements RequestHandlerInterface
             password: $data['password'] ?? '',
         );
 
-        try {
-            $this->validator->validate($command);
-        } catch (ValidationException $exception) {
-            $errors = [];
-            foreach ($exception->getViolations() as $violation) {
-                $errors[$violation->getPropertyPath()] = $violation->getMessage();
-            }
-
-            return new JsonResponse(['errors' => $errors], 422);
-        }
+        $this->validator->validate($command);
 
         $this->handler->handle($command);
 
