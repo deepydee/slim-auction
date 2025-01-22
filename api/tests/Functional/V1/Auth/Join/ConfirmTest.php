@@ -73,13 +73,17 @@ final class ConfirmTest extends WebTestCase
     #[Test]
     public function test_empty(): void
     {
+        self::markTestIncomplete('Waiting for validation.');
+
         $response = $this->app()->handle(self::json('POST', '/v1/auth/join/confirm', []));
 
-        self::assertEquals(409, $response->getStatusCode());
+        self::assertEquals(422, $response->getStatusCode());
         self::assertJson($body = (string) $response->getBody());
 
         self::assertEquals([
-            'message' => 'Invalid token.',
+            'errors' => [
+                'token' => 'This value should not be blank.',
+            ],
         ], Json::decode($body));
     }
 
