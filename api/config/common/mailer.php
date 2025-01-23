@@ -38,7 +38,7 @@ return [
             $config['port'],
             $config['encryption'] === 'tls',
             $dispatcher,
-            //            $container->get(LoggerInterface::class)
+            $container->get(LoggerInterface::class)
         ))
             ->setUsername($config['user'])
             ->setPassword($config['password']);
