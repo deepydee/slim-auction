@@ -22,12 +22,12 @@ return [
             $translator->addResource(...$resource);
         }
 
-        return new Translator($config['lang']);
+        return $translator;
     },
 
     'config' => [
         'translator' => [
-            'lang' => 'en',
+            'lang' => 'ru',
             'resources' => [
                 [
                     'xlf',
