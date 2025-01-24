@@ -23,6 +23,8 @@ services:
       context: frontend/docker/development/nginx
     volumes:
       - ./frontend:/app
+    depends_on:
+      - frontend-node
   
   frontend-node:
     build:
@@ -31,7 +33,7 @@ services:
       WDS_SOCKET_PORT: 0
     volumes:
       - ./frontend:/app
-    command: yarn start
+    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn start"
     tty: true
   
   frontend-node-cli:
