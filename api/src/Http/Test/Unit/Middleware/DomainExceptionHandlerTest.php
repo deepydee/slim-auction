@@ -15,6 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @internal
@@ -31,7 +32,9 @@ final class DomainExceptionHandlerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects(self::never())->method('warning');
 
-        $middleware = new DomainExceptionHandler($logger);
+        $translator = self::createStub(TranslatorInterface::class);
+
+        $middleware = new DomainExceptionHandler($logger, $translator);
 
         $handler = self::createStub(RequestHandlerInterface::class);
         $handler->method('handle')->willReturn($source = (new ResponseFactory())->createResponse());
@@ -52,7 +55,18 @@ final class DomainExceptionHandlerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects(self::once())->method('warning');
 
-        $middleware = new DomainExceptionHandler($logger);
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator
+            ->expects(self::once())
+            ->method('trans')
+            ->with(
+                self::equalTo('Some error.'),
+                self::equalTo([]),
+                self::equalTo('exceptions')
+            )
+            ->willReturn('Ошибка.');
+
+        $middleware = new DomainExceptionHandler($logger, $translator);
 
         $handler = self::createStub(RequestHandlerInterface::class);
         $handler->method('handle')->willThrowException(new DomainException('Some error.'));
@@ -67,7 +81,7 @@ final class DomainExceptionHandlerTest extends TestCase
         $data = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
 
         self::assertEquals([
-            'message' => 'Some error.',
+            'message' => 'Ошибка.',
         ], $data);
     }
 }

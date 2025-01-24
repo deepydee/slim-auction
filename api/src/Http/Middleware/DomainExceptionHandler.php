@@ -11,11 +11,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class DomainExceptionHandler implements MiddlewareInterface
+final readonly class DomainExceptionHandler implements MiddlewareInterface
 {
-    public function __construct(private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private LoggerInterface $logger,
+        private TranslatorInterface $translator,
+    ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -32,7 +35,7 @@ final class DomainExceptionHandler implements MiddlewareInterface
             );
 
             return new JsonResponse([
-                'message' => $exception->getMessage(),
+                'message' => $this->translator->trans($exception->getMessage(), [], 'exceptions'),
             ], 409);
         }
     }

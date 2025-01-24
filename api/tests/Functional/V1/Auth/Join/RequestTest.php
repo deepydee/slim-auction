@@ -82,8 +82,6 @@ final class RequestTest extends WebTestCase
     #[Test]
     public function test_existing_lang(): void
     {
-        self::markTestIncomplete('Waiting for translation.');
-
         $response = $this->app()->handle(self::json('POST', '/v1/auth/join', [
             'email' => 'existing@app.test',
             'password' => 'new-password',
