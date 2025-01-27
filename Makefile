@@ -8,7 +8,7 @@ restart: down up
 check: lint analyze api-validate-schema test
 lint: api-lint
 analyze: api-analyze
-test: api-test api-fixtures
+test: api-test api-fixtures frontend-test
 test-unit: api-test-unit
 test-unit-coverage: api-test-unit-coverage
 test-functional: api-test-functional api-fixtures
@@ -87,6 +87,12 @@ frontend-yarn-install:
 
 frontend-ready:
 	docker run --rm -v ${PWD}/frontend:/app -w /app alpine touch .ready
+
+frontend-test:
+	docker compose run --rm frontend-node-cli yarn test --watchAll=false
+
+frontend-test-watch:
+	docker compose run --rm frontend-node-cli yarn test
 
 build: build-gateway build-frontend build-api
 
