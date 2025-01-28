@@ -14,14 +14,19 @@
     "@testing-library/react": "^14.2.2",
     "@testing-library/user-event": "^14.0.0",
     "eslint": "^8.0.1",
+    "eslint-config-prettier": "^10.0.1",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^15.14.0",
+    "prettier": "3.4.2",
     "stylelint": "^16.14.1",
-    "stylelint-config-standard": "^37.0.0"
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^37.0.0",
+    "stylelint-prettier": "^5.0.3"
   },
   "scripts": {
     "start": "node_modules/.bin/react-scripts start",
@@ -30,7 +35,8 @@
     "eslint": "eslint src",
     "eslint-fix": "eslint src --fix",
     "stylelint": "stylelint \"src/**/*.css\"",
-    "stylelint-fix": "stylelint \"src/**/*.css\" --fix"
+    "stylelint-fix": "stylelint \"src/**/*.css\" --fix",
+    "prettier": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
   },
   "eslintConfig": {
     "extends": [
