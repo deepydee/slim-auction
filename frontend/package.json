@@ -19,14 +19,18 @@
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.37.4",
-    "globals": "^15.14.0"
+    "globals": "^15.14.0",
+    "stylelint": "^16.14.1",
+    "stylelint-config-standard": "^37.0.0"
   },
   "scripts": {
     "start": "node_modules/.bin/react-scripts start",
     "build": "node_modules/.bin/react-scripts build",
     "test": "node_modules/.bin/react-scripts test",
     "eslint": "eslint src",
-    "eslint-fix": "eslint src --fix"
+    "eslint-fix": "eslint src --fix",
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "stylelint-fix": "stylelint \"src/**/*.css\" --fix"
   },
   "eslintConfig": {
     "extends": [
