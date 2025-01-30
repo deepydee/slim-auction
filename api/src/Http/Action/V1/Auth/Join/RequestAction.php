@@ -7,8 +7,6 @@ namespace App\Http\Action\V1\Auth\Join;
 use App\Auth\Command\JoinByEmail\Request\Command;
 use App\Auth\Command\JoinByEmail\Request\Handler;
 use App\Http\EmptyResponse;
-use App\Http\JsonResponse;
-use App\Http\Validator\ValidationException;
 use App\Http\Validator\Validator;
 use JsonException;
 use Psr\Http\Message\ResponseInterface;
