@@ -119,6 +119,12 @@ services:
     image: mailhog/mailhog
     ports:
       - "8025:8025"
+  
+  cucumber-node-cli:
+    build:
+      context: cucumber/docker/development/node
+    volumes:
+      - ./cucumber:/app
 
 networks:
   default:
