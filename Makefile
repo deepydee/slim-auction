@@ -10,9 +10,7 @@ lint: api-lint frontend-lint
 analyze: api-analyze
 test: api-test api-fixtures frontend-test
 test-unit: api-test-unit
-test-unit-coverage: api-test-unit-coverage
 test-functional: api-test-functional api-fixtures
-test-functional-coverage: api-test-functional-coverage api-fixtures
 
 docker-up:
 	docker compose up -d
