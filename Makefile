@@ -1,5 +1,5 @@
 init: docker-down-clear \
-	api-clear frontend-clear \
+	api-clear frontend-clear cucumber-clear \
 	docker-pull docker-build docker-up \
 	api-init frontend-init cucumber-init
 up: docker-up
@@ -11,7 +11,7 @@ analyze: api-analyze
 test: api-test api-fixtures frontend-test
 test-unit: api-test-unit
 test-functional: api-test-functional api-fixtures
-test-e2e: api-fixtures cucumber-e2e
+test-e2e: api-fixtures cucumber-clear cucumber-e2e
 
 docker-up:
 	docker compose up -d
@@ -108,6 +108,9 @@ cucumber-init: cucumber-yarn-install
 
 cucumber-yarn-install:
 	docker compose run --rm cucumber-node-cli yarn install
+
+cucumber-clear:
+	docker run --rm -v ${PWD}/cucumber:/app -w /app alpine sh -c 'rm -rf var/*'
 
 cucumber-e2e:
 	docker compose run --rm cucumber-node-cli yarn e2e
