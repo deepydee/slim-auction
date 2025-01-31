@@ -1,8 +1,8 @@
-const { setWorldConstructor } = require("cucumber");
+const { setWorldConstructor } = require('cucumber')
 
 function CustomWorld() {
-  this.browser = null;
-  this.page = null;
+  this.browser = null
+  this.page = null
 }
 
-setWorldConstructor(CustomWorld);
+setWorldConstructor(CustomWorld)
