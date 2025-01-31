@@ -11,7 +11,11 @@ analyze: api-analyze
 test: api-test api-fixtures frontend-test
 test-unit: api-test-unit
 test-functional: api-test-functional api-fixtures
-test-e2e: api-fixtures cucumber-clear cucumber-e2e
+test-e2e:
+	make api-fixtures
+	make cucumber-clear
+	- make cucumber-e2e
+	make cucumber-report
 
 docker-up:
 	docker compose up -d
@@ -114,6 +118,9 @@ cucumber-clear:
 
 cucumber-e2e:
 	docker compose run --rm cucumber-node-cli yarn e2e
+
+cucumber-report:
+	docker compose run --rm cucumber-node-cli yarn report
 
 build: build-gateway build-frontend build-api
 

@@ -1,10 +1,12 @@
 {
   "dependencies": {
     "cucumber": "^6.0.7",
+    "cucumber-html-reporter": "^7.2.0",
     "puppeteer": "^24.1.1"
   },
   "scripts": {
     "e2e": "cucumber-js --format json:var/report.json",
+    "report": "node reporter.js",
     "eslint": "eslint features",
     "eslint-fix": "eslint features --fix"
   },
