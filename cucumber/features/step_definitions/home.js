@@ -7,5 +7,5 @@ Then('I see welcome block', async function () {
     '[data-testid=welcome] h1',
     (el) => el.textContent,
   )
-  expect(text).to.eql('Auction1')
+  expect(text).to.eql('Auction')
 })
