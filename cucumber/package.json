@@ -4,6 +4,7 @@
     "puppeteer": "^24.1.1"
   },
   "scripts": {
+    "smoke": "cucumber-js --tags @smoke --fail-fast --parallel 4",
     "e2e": "cucumber-js --parallel 4",
     "report": "node reporter.js",
     "eslint": "eslint features",
