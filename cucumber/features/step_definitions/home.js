@@ -1,8 +1,6 @@
 const { Given, When, Then } = require("cucumber");
 
-Given("I am a guest user", function () {
-  return "pending";
-});
+Given("I am a guest user", function () {});
 
 When("I open home page", function () {
   return "pending";
