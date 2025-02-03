@@ -20,6 +20,7 @@
     "sentry/sentry": "^4.10",
     "slim/psr7": "dev-master",
     "slim/slim": "^4.0",
+    "symfony/cache": "^7.2",
     "symfony/config": "^7.2",
     "symfony/console": "7.3.x-dev",
     "symfony/mailer": "^7.2",
