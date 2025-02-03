@@ -14,9 +14,9 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 
 WORKDIR /app
 
-USER node
-
 COPY ./package.json ./yarn.lock ./
 RUN yarn install && yarn cache clean
 
 COPY ./ ./
+
+USER node

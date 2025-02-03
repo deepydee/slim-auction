@@ -8,14 +8,14 @@ WORKDIR /app
 
 COPY ./composer.json ./composer.lock ./
 
-RUN composer install --no-dev --prefer-dist --no-progress --no-suggest --optimize-autoloader \
+RUN composer install --no-dev --prefer-dist --no-progress --optimize-autoloader \
     && rm -rf /root/.composer/cache
 
 ### FPM ###
 
 FROM php:8.3-cli-alpine3.18
 
-RUN apk add --no-cache postgresql-dev fcgi \
+RUN apk add --no-cache postgresql-dev fcgi git \
     && git clone --depth 1 https://github.com/wikimedia/mediawiki-php-excimer.git /usr/src/php/ext/excimer \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo_pgsql opcache excimer \

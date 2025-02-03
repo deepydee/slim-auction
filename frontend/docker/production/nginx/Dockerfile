@@ -1,4 +1,4 @@
-FROM nginx:1.27-alpine as builder
+FROM node:23-alpine as builder
 
 WORKDIR /app
 
