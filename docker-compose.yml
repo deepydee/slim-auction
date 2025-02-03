@@ -72,7 +72,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       FRONTEND_URL: http://auction.test:8080
-      SENTRY_DSN: null
+      SENTRY_DSN: ''
     volumes:
       - ./api:/app
   
@@ -97,7 +97,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       FRONTEND_URL: http://auction.test:8080
-      SENTRY_DSN: null
+      SENTRY_DSN: ''
     volumes:
       - ./api:/app
     networks:
