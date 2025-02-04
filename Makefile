@@ -161,6 +161,12 @@ testing-init:
 	COMPOSE_PROJECT_NAME=testing docker compose -f docker-compose-testing.yml run --rm api-php-cli wait-for-it api-postgres:5432 -t 60
 	COMPOSE_PROJECT_NAME=testing docker compose -f docker-compose-testing.yml run --rm api-php-cli php bin/app.php migrations:migrate --no-interaction
 
+testing-smoke:
+	COMPOSE_PROJECT_NAME=testing docker compose -f docker-compose-testing.yml run --rm cucumber-node-cli yarn smoke
+
+testing-e2e:
+	COMPOSE_PROJECT_NAME=testing docker compose -f docker-compose-testing.yml run --rm cucumber-node-cli yarn e2e
+
 testing-down-clear:
 	COMPOSE_PROJECT_NAME=testing docker compose -f docker-compose-testing.yml down -v --remove-orphans
 
@@ -169,6 +175,12 @@ try-testing-build:
 
 try-testing-init:
 	REGISTRY=localhost IMAGE_TAG=0 make testing-init
+
+try-testing-smoke:
+	REGISTRY=localhost IMAGE_TAG=0 make testing-smoke
+
+try-testing-e2e:
+	REGISTRY=localhost IMAGE_TAG=0 make testing-e2e
 
 try-testing-down-clear:
 	REGISTRY=localhost IMAGE_TAG=0 make testing-down-clear
@@ -180,7 +192,7 @@ deploy:
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "COMPOSE_PROJECT_NAME=auction" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "REGISTRY=${REGISTRY}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "IMAGE_TAG=${IMAGE_TAG}" >> .env'
-	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "DB_PASSWORD=${API_DB_PASSWORD}" >> .env'
+	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_DB_PASSWORD=${API_DB_PASSWORD}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "MAILER_FROM_EMAIL=${API_MAILER_FROM_EMAIL}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "MAILER_HOST=${API_MAILER_HOST}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "MAILER_PASSWORD=${API_MAILER_PASSWORD}" >> .env'
@@ -188,9 +200,9 @@ deploy:
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "MAILER_USER=${API_MAILER_USERNAME}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "SENTRY_DSN=${SENTRY_DSN}" >> .env'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose -f docker-compose-production.yml pull'
-	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose up --build -d api-postgres api-php-cli'
-	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose run api-php-cli wait-for-it api-postgres:5432 -t 60'
-	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose run api-php-cli php bin/app.php migrations:migrate --no-interaction'
+	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose -f docker-compose-production.yml up --build -d api-postgres api-php-cli'
+	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose -f docker-compose-production.yml run api-php-cli wait-for-it api-postgres:5432 -t 60'
+	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose -f docker-compose-production.yml run api-php-cli php bin/app.php migrations:migrate --no-interaction'
 	ssh deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker compose -f docker-compose-production.yml up --build --remove-orphans -d'
 	ssh deploy@${HOST} -p ${PORT} 'rm -f site'
 	ssh deploy@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
