@@ -5,14 +5,17 @@ services:
       - frontend
       - api
       - mailer
+    restart: always
   
   frontend:
     image: ${REGISTRY}/auction-frontend:${IMAGE_TAG}
+    restart: always
   
   api:
     image: ${REGISTRY}/auction-api:${IMAGE_TAG}
     depends_on:
       - api-php-fpm
+    restart: always
   
   api-php-fpm:
     image: ${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG}
@@ -31,6 +34,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       FRONTEND_URL: http://gateway:8080
       SENTRY_DSN: ''
+    restart: always
   
   api-php-cli:
     image: ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
@@ -51,11 +55,12 @@ services:
       SENTRY_DSN: ''
   
   api-postgres:
-    image: postgres:12.2-alpine
+    image: postgres:17.2-alpine
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: app
+    restart: always
   
   mailer:
     image: mailhog/mailhog
