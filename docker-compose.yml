@@ -8,7 +8,7 @@ services:
       - "8081:8081"
     networks:
       - default
-      - dev-proxy
+    #      - dev-proxy
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=dev-proxy"
@@ -102,7 +102,7 @@ services:
       - ./api:/app
     networks:
       - default
-      - dev-proxy
+  #      - dev-proxy
   
   api-postgres:
     image: postgres:17.2-alpine
@@ -128,8 +128,8 @@ services:
 
 networks:
   default:
-  dev-proxy:
-    external: true
+#  dev-proxy:
+#    external: true
 
 volumes:
   api-postgres:
