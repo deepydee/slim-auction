@@ -191,6 +191,9 @@ try-testing-e2e:
 try-testing-down-clear:
 	REGISTRY=localhost IMAGE_TAG=0 make testing-down-clear
 
+validate-jenkins:
+	curl --user ${USER} -X POST -F "jenkinsfile=<Jenkinsfile" ${HOST}/pipeline-model-converter/validate
+
 deploy:
 	ssh deploy@${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER}'
 	ssh deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}'
