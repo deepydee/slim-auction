@@ -32,10 +32,10 @@ docker-build:
 api-init: api-permissions api-composer-install api-wait-db api-migrations api-fixtures
 
 api-permissions:
-	docker run --rm -v ${PWD}/api:/app -w /app alpine chmod 777 var/cache var/log
+	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c "mkdir -p var/cache var/log && chmod 777 var/cache var/log"
 
 api-clear:
-	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/cache/* car/log/*'
+	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/cache/* var/log/*'
 
 api-composer-install:
 	docker compose run --rm api-php-cli composer install
