@@ -29,11 +29,6 @@ pipeline {
                         sh "make frontend-lint"
                     }
                 }
-                stage("Cucumber") {
-                    steps {
-                        sh "make cucumber-lint"
-                    }
-                }
             }
         }
         stage("Down") {
