@@ -6,8 +6,6 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="https://getpsalm.org/schema/config"
   xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-  findUnusedBaselineEntry="true"
-  findUnusedCode="true"
 >
   <plugins>
     <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
@@ -20,6 +18,7 @@
     <directory name="public"/>
     <directory name="src"/>
     <directory name="tests"/>
+    <directory name="translations"/>
     <ignoreFiles>
       <directory name="vendor"/>
     </ignoreFiles>
@@ -27,26 +26,5 @@
 
   <issueHandlers>
     <LessSpecificReturnType errorLevel="info"/>
-    <UnusedClass>
-      <errorLevel type="suppress">
-        <directory name="src/Http/Test"/>
-        <directory name="src/Auth/Test/Unit"/>
-        <directory name="tests"/>
-      </errorLevel>
-    </UnusedClass>
-    <PropertyNotSetInConstructor>
-      <errorLevel type="suppress">
-        <directory name="src/Http/Test"/>
-        <directory name="src/Auth/Test/Unit"/>
-        <directory name="tests"/>
-      </errorLevel>
-    </PropertyNotSetInConstructor>
-    <PossiblyUnusedMethod>
-      <errorLevel type="suppress">
-        <directory name="src/Http/Test"/>
-        <directory name="src/Auth/Test/Unit"/>
-        <directory name="tests"/>
-      </errorLevel>
-    </PossiblyUnusedMethod>
   </issueHandlers>
 </psalm>

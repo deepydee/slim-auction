@@ -20,6 +20,9 @@ final class FrontendUrlTwigExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param  array<string, int|string>  $params
+     */
     public function url(string $path, array $params = []): string
     {
         return $this->urlGenerator->generate($path, $params);

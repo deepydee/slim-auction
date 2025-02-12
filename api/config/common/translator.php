@@ -22,6 +22,7 @@ return [
         $translator->addLoader('xlf', new XliffFileLoader());
 
         foreach ($config['resources'] as $resource) {
+            /** @psalm-suppress InvalidScalarArgument  */
             $translator->addResource(...$resource);
         }
 

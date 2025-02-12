@@ -39,6 +39,7 @@ final class ConfirmTest extends TestCase
         $user->confirmEmailChanging($token->value(), $now);
 
         self::assertNull($user->newEmail());
+        /** @psalm-suppress DocblockTypeContradiction  */
         self::assertNull($user->newEmailToken());
         self::assertEquals($new, $user->email());
     }

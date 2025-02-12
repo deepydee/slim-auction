@@ -13,6 +13,9 @@ use Symfony\Component\Translation\Translator;
 
 final readonly class TranslatorLocale implements MiddlewareInterface
 {
+    /**
+     * @param  list<string>  $locales
+     */
     public function __construct(
         private Translator $translator,
         private array $locales,
@@ -26,19 +29,22 @@ final readonly class TranslatorLocale implements MiddlewareInterface
             $this->locales
         );
 
-        if (! empty($locale)) {
+        if (! is_null($locale)) {
             $this->translator->setLocale($locale);
         }
 
         return $handler->handle($request);
     }
 
+    /**
+     * @param  array<array-key, string>  $allowed
+     *
+     */
     private static function parseLocale(?string $accept, array $allowed): ?string
     {
-        /** @var ?string $default */
         $default = $allowed[0] ?? null;
 
-        if (empty($accept)) {
+        if (is_null($accept)) {
             return $default;
         }
 

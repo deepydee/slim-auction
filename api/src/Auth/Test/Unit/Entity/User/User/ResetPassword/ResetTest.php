@@ -37,6 +37,7 @@ final class ResetTest extends TestCase
 
         $user->resetPassword($token->value(), $now, $hash = 'hash');
 
+        /** @psalm-suppress DocblockTypeContradiction  */
         self::assertNull($user->passwordResetToken());
         self::assertEquals($hash, $user->passwordHash());
     }

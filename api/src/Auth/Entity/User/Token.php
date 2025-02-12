@@ -60,6 +60,7 @@ final readonly class Token
 
     public function isEmpty(): bool
     {
+        /** @psalm-suppress RiskyTruthyFalsyComparison */
         return empty($this->value);
     }
 }
