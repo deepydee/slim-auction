@@ -62,7 +62,7 @@ pipeline {
                 sh "make build"
             }
         }
-         stage("Testing") {
+        stage("Testing") {
             stages {
                 stage("Build") {
                     steps {
@@ -90,6 +90,7 @@ pipeline {
                     }
                 }
             }
+        }
     }
     post {
         always {
