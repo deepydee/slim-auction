@@ -1,12 +1,13 @@
 {
   "dependencies": {
-    "cucumber": "^6.0.7",
-    "puppeteer": "^24.1.1"
+    "@cucumber/cucumber": "^11.2.0",
+    "puppeteer-core": "^24.2.1"
   },
+  "type": "module",
   "scripts": {
     "smoke": "cucumber-js --tags @smoke --fail-fast --parallel 4",
     "smoke-ci": "cucumber-js --tags @smoke --fail-fast --parallel 2 --retry 2",
-    "e2e": "cucumber-js --parallel 4",
+    "e2e": "cucumber-js --parallel 2",
     "e2e-ci": "cucumber-js --parallel 2 --retry 2",
     "report": "node reporter.js",
     "eslint": "eslint features",

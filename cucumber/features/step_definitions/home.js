@@ -1,5 +1,5 @@
-const { Then } = require('cucumber')
-const { expect } = require('chai')
+import { Then } from '@cucumber/cucumber'
+import { expect } from 'chai'
 
 Then('I see welcome block', async function () {
   await this.page.waitForSelector('[data-testid=welcome]')
