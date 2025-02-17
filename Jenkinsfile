@@ -44,6 +44,11 @@ pipeline {
                     steps {
                         sh "make api-test"
                     }
+                    post {
+                        failure {
+                            archiveArtifacts 'api/var/log/**/*'
+                        }
+                    }
                 }
                 stage("Front") {
                     steps {
@@ -78,10 +83,20 @@ pipeline {
                     steps {
                         sh "make testing-smoke"
                     }
+                    post {
+                        failure {
+                            archiveArtifacts 'cucumber/var/*'
+                        }
+                    }
                 }
                 stage("E2E") {
                     steps {
                         sh "make testing-e2e"
+                    }
+                    post {
+                        failure {
+                            archiveArtifacts 'cucumber/var/*'
+                        }
                     }
                 }
                 stage("Down") {
