@@ -26,6 +26,6 @@ RUN addgroup -g 1000 webserver && adduser -G webserver -g webserver -s /bin/sh -
 
 WORKDIR /app
 
-RUN chown -R webserver:webserver /app
-
-USER webserver
+#RUN chown -R webserver:webserver /app
+#
+#USER webserver
