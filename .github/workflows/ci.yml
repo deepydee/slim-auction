@@ -1,0 +1,142 @@
+name: Pipeline
+
+on: [ push, pull_request ]
+
+env:
+  REGISTRY: ghcr.io/deepydee/slim-auction
+  REGISTRY_HOST: ghcr.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache API composer
+        uses: actions/cache@v4
+        with:
+          path: api/vendor
+          key: api-composer-${{ hashFiles('api/composer.lock') }}
+
+      - name: Cache frontend yarn
+        uses: actions/cache@v4
+        with:
+          path: frontend/node_modules
+          key: frontend-yarn-${{ hashFiles('frontend/yarn.lock') }}
+
+      - name: Cache cucumber yarn
+        uses: actions/cache@v4
+        with:
+          path: cucumber/node_modules
+          key: cucumber-yarn-${{ hashFiles('cucumber/yarn.lock') }}
+
+      - name: Docker login
+        uses: azure/docker-login@v2
+        with:
+          login-server: ${{ env.REGISTRY_HOST }}
+          username: ElisDN
+          password: ${{ github.token }}
+
+      - name: Dev Init
+        run: make init
+
+      - name: Push dev cache images
+        run: make push-dev-cache
+
+      - name: Validate
+        run: make api-validate-schema
+
+      - name: Lint API
+        run: make api-lint
+
+      - name: Lint Frontend
+        run: make frontend-lint
+
+      - name: Analyze API
+        run: make api-analyze
+
+      - name: Test API
+        id: api-test
+        run: make api-test
+
+      - name: Archive tests output
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output
+          path: api/var/log
+        if: ${{ always() && steps.api-test.outcome == 'failure' }}
+
+      - name: Test Frontend
+        run: make frontend-test
+
+      - name: Dev Down
+        run: make docker-down-clear
+
+      - name: Inject branch slug
+        uses: rlespinasse/github-slug-action@v5
+
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${{ env.GITHUB_REF_SLUG }}-${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+
+      - name: Build
+        run: make build
+
+      - name: Push build cache images
+        run: make push-build-cache
+
+      - name: Testing Build
+        run: make testing-build
+
+      - name: Push testing cache images
+        run: make push-testing-build-cache
+
+      - name: Testing Init
+        run: make testing-init
+
+      - name: Testing Smoke
+        id: testing-smoke
+        run: make testing-smoke
+
+      - name: Testing E2E
+        id: testing-e2e
+        run: make testing-e2e
+
+      - name: Archive tests output
+        uses: actions/upload-artifact@v4
+        with:
+          name: testing-tests-output
+          path: cucumber/var
+        if: ${{ always() && (steps.testing-smoke.outcome == 'failure' || steps.testing-e2e.outcome == 'failure') }}
+
+      - name: Testing Down
+        run: make testing-down-clear
+
+      - name: Push
+        run: make push
+        if: ${{ github.ref == 'refs/heads/master-deploy' }}
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PRODUCTION_KEY }}
+          known_hosts: ${{ secrets.PRODUCTION_HOST }}
+        if: ${{ github.ref == 'refs/heads/master-deploy' }}
+
+      - name: Deploy
+        run: make deploy
+        env:
+          BUILD_NUMBER: ${GITHUB_RUN_NUMBER}
+          HOST: ${{ secrets.PRODUCTION_HOST }}
+          PORT: ${{ secrets.PRODUCTION_PORT }}
+          API_DB_PASSWORD: ${{ secrets.API_DB_PASSWORD }}
+          API_MAILER_HOST: ${{ secrets.API_MAILER_HOST }}
+          API_MAILER_PORT: ${{ secrets.API_MAILER_PORT }}
+          API_MAILER_USER: ${{ secrets.API_MAILER_USER }}
+          API_MAILER_PASSWORD: ${{ secrets.API_MAILER_PASSWORD }}
+          API_MAILER_FROM_EMAIL: ${{ secrets.API_MAILER_FROM_EMAIL }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        if: ${{ github.ref == 'refs/heads/master-deploy' }}

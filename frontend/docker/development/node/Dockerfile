@@ -4,4 +4,4 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-USER node
+#USER node

@@ -1,6 +1,7 @@
 FROM php:8.3-cli-alpine3.18
 
 ENV XDEBUG_VERSION 3.3.1
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN apk add --no-cache postgresql-dev bash coreutils git linux-headers \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -25,6 +26,6 @@ RUN addgroup -g 1000 webserver && adduser -G webserver -g webserver -s /bin/sh -
 
 WORKDIR /app
 
-RUN chown -R webserver:webserver /app
-
-USER webserver
+#RUN chown -R webserver:webserver /app
+#
+#USER webserver
