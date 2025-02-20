@@ -29,6 +29,9 @@ docker-pull:
 docker-build:
 	DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker compose build --build-arg BUILDKIT_INLINE_CACHE=1 --pull
 
+push-dev-cache:
+	docker compose push
+
 api-init: api-permissions api-composer-install api-wait-db api-migrations api-fixtures
 
 api-permissions:
