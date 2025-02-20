@@ -181,6 +181,26 @@ build-api:
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
 
+push-build-cache: push-build-cache-gateway push-build-cache-frontend push-build-cache-api push-build-cache-api-php-fpm push-build-cache-api-php-cli
+
+push-build-cache-gateway:
+	docker push ${REGISTRY}/auction-gateway:cache
+
+push-build-cache-frontend:
+	docker push ${REGISTRY}/auction-frontend:cache-builder
+	docker push ${REGISTRY}/auction-frontend:cache
+
+push-build-cache-api:
+	docker push ${REGISTRY}/auction-api:cache
+
+push-build-cache-api-php-fpm:
+	docker push ${REGISTRY}/auction-api-php-fpm:cache-builder
+	docker push ${REGISTRY}/auction-api-php-fpm:cache
+
+push-build-cache-api-php-cli:
+	docker push ${REGISTRY}/auction-api-php-cli:cache-builder
+	docker push ${REGISTRY}/auction-api-php-cli:cache
+
 push: push-gateway push-frontend push-api
 
 push-gateway:
