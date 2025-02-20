@@ -82,3 +82,6 @@ jobs:
 
       - name: Dev Down
         run: make docker-down-clear
+
+      - name: Build
+        run: make build
