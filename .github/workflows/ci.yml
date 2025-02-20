@@ -16,6 +16,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     
     steps:
       - uses: actions/checkout@v2
@@ -50,6 +53,3 @@ jobs:
 
       - name: Push dev cache images
         run: make push-dev-cache
-        permissions:
-          contents: read
-          packages: write
