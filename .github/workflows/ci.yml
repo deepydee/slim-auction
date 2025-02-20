@@ -50,3 +50,6 @@ jobs:
 
       - name: Push dev cache images
         run: make push-dev-cache
+        permissions:
+          contents: read
+          packages: write
