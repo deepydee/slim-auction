@@ -117,14 +117,14 @@ jobs:
 
       - name: Push
         run: make push
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master-deploy' }}
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.PRODUCTION_KEY }}
           known_hosts: ${{ secrets.PRODUCTION_HOST }}
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master-deploy' }}
 
       - name: Deploy
         run: make deploy
@@ -139,4 +139,4 @@ jobs:
           API_MAILER_PASSWORD: ${{ secrets.API_MAILER_PASSWORD }}
           API_MAILER_FROM_EMAIL: ${{ secrets.API_MAILER_FROM_EMAIL }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master-deploy' }}
