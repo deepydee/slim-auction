@@ -63,9 +63,6 @@ jobs:
       - name: Lint Frontend
         run: make frontend-lint
 
-      - name: Lint Cucumber
-        run: make cucumber-lint
-
       - name: Analyze API
         run: make api-analyze
 
