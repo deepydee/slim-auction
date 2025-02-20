@@ -12,6 +12,7 @@ on:
 env:
   REGISTRY: ghcr.io/deepydee/slim-auction
   REGISTRY_HOST: ghcr.io
+  IMAGE_TAG: master-${GITHUB_RUN_NUMBER}
 
 jobs:
   build:
@@ -85,3 +86,6 @@ jobs:
 
       - name: Build
         run: make build
+
+      - name: Push build cache images
+        run: make push-build-cache
