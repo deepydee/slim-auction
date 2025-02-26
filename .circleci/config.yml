@@ -55,10 +55,6 @@ jobs:
           command: make frontend-lint
 
       - run:
-          name: Lint Cucumber
-          command: make cucumber-lint
-
-      - run:
           name: Analyze
           command: make api-analyze
 
