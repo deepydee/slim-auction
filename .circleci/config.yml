@@ -27,10 +27,6 @@ jobs:
           name: Init
           command: make init
 
-      - run:
-          name: Push build cache images
-          command: make push-build-cache
-
       - save_cache:
           key: api-composer-{{ checksum "api/composer.lock" }}
           paths:
