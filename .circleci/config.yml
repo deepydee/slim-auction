@@ -21,7 +21,7 @@ jobs:
 
       - run:
           name: Docker login
-          command: docker login -u=$REGISTRY_USER -p='$REGISTRY_PASSWORD' $REGISTRY
+          command: echo $REGISTRY_PASSWORD | docker login -u=$REGISTRY_USER $REGISTRY --password-stdin
 
       - run:
           name: Init
