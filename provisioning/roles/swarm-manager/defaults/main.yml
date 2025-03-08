@@ -1,4 +1,5 @@
 certbot_email: mail@whatiswebdev.com
+ansible_python_interpreter: /opt/docker-venv/bin/python
 certbot_hosts:
-    - auction.whatiswebdev.com
-    - api.auction.whatiswebdev.com
+  - auction.whatiswebdev.com
+  - api.auction.whatiswebdev.com
