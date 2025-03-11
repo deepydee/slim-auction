@@ -1,10 +1,6 @@
 services:
   gateway:
     image: ${REGISTRY}/auction-testing-gateway:${IMAGE_TAG}
-    depends_on:
-      - frontend
-      - api
-      - mailer
     restart: always
   
   frontend:
@@ -13,8 +9,6 @@ services:
   
   api:
     image: ${REGISTRY}/auction-api:${IMAGE_TAG}
-    depends_on:
-      - api-php-fpm
     restart: always
   
   api-php-fpm:

@@ -14,17 +14,12 @@ services:
       - "traefik.docker.network=dev-proxy"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-gateway.rule=Host(`${VIRTUAL_HOST}`)"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}-gateway.loadbalancer.server.port=80"
-    depends_on:
-      - frontend
-      - api
 
   frontend:
     build:
       context: frontend/docker/development/nginx
     volumes:
       - ./frontend:/app
-    depends_on:
-      - frontend-node
   
   frontend-node:
     build:
@@ -48,8 +43,6 @@ services:
       dockerfile: development/nginx/Dockerfile
     volumes:
       - ./api:/app
-    depends_on:
-      - api-php-fpm
 
   api-php-fpm:
     build:
