@@ -25,6 +25,7 @@ RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
 COPY ./docker/common/php/conf.d /usr/local/etc/php/conf.d
 COPY ./docker/production/php/conf.d /usr/local/etc/php/conf.d
+COPY ./docker/common/php/php-fpm.d /usr/local/etc/php-fpm.d
 
 COPY ./docker/common/wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod 555 /usr/local/bin/wait-for-it
@@ -37,4 +38,8 @@ COPY --chown=webserver --from=builder /app ./
 COPY --chown=webserver ./ ./
 
 USER webserver
+
+HEALTHCHECK --interval=5s --timeout=3s --start-period=1s \
+    CMD REDIRECT_STATUS=true SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET \
+    cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1
 

@@ -18,5 +18,10 @@ RUN addgroup -g 1000 webserver && adduser -G webserver -g webserver -s /bin/sh -
 COPY --chown=webserver ./common/php/conf.d /usr/local/etc/php/conf.d
 COPY --chown=webserver ./development/php/conf.d /usr/local/etc/php/conf.d
 COPY --chown=webserver ./development/php-fpm/conf.d /usr/local/etc/php/conf.d
+COPY --chown=webserver ./common/php/php-fpm.d /usr/local/etc/php-fpm.d
 
 WORKDIR /app
+
+HEALTHCHECK --interval=5s --timeout=3s --start-period=1s \
+    CMD REDIRECT_STATUS=true SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET \
+    cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1
